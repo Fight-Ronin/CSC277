@@ -112,6 +112,10 @@ INPUT c:/texlive/2023/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT c:/texlive/2023/texmf-dist/tex/latex/amsmath/amsopn.sty
 INPUT c:/texlive/2023/texmf-dist/tex/latex/tools/enumerate.sty
 INPUT c:/texlive/2023/texmf-dist/tex/latex/tools/enumerate.sty
+INPUT c:/texlive/2023/texmf-dist/tex/latex/caption/caption.sty
+INPUT c:/texlive/2023/texmf-dist/tex/latex/caption/caption.sty
+INPUT c:/texlive/2023/texmf-dist/tex/latex/caption/caption3.sty
+INPUT c:/texlive/2023/texmf-dist/tex/latex/caption/caption3.sty
 INPUT c:/texlive/2023/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
 INPUT c:/texlive/2023/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
 INPUT c:/texlive/2023/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty

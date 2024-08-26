@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1724674271.61147 "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" "main.pdf" "main" 1724674272.515 0
+["pdflatex"] 1724710865.99799 "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" "main.pdf" "main" 1724710866.92734 2
   "Trainloss.png" 1724674033 26951 86e3535d41271e587ba300a6e7248fa0 ""
-  "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" 1724674271 12626 e91bdf5ad4abef4ed035e50d017c73b2 ""
+  "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" 1724710865 12500 878b5afcbdc3536e156a8c0ed15e71c9 ""
   "c:/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1707423307 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1707421856 1004 54797486969f23fa377b128694d548df ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1707421856 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -127,6 +127,8 @@
   "c:/texlive/2023/texmf-dist/tex/latex/base/atveryend-ltx.sty" 1707424306 2462 6bc53756156dbd71c1ad550d30a3b93f ""
   "c:/texlive/2023/texmf-dist/tex/latex/base/omscmr.fd" 1707424306 2469 74341109f164f230581718c66211c718 ""
   "c:/texlive/2023/texmf-dist/tex/latex/base/size11.clo" 1707424306 8464 59874a3b0776c73e2a138b025d8473dd ""
+  "c:/texlive/2023/texmf-dist/tex/latex/caption/caption.sty" 1707422168 56128 c2ccf1a29d78c33bc553880402e4fb9a ""
+  "c:/texlive/2023/texmf-dist/tex/latex/caption/caption3.sty" 1707422168 72619 ee90b6612147680fd73c3b1406a74245 ""
   "c:/texlive/2023/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1707422951 13886 d1306dcf79a944f6988e688c1785f9ce ""
   "c:/texlive/2023/texmf-dist/tex/latex/etoolbox/etoolbox.sty" 1707423009 46845 3b58f70c6e861a13d927bff09d35ecbc ""
   "c:/texlive/2023/texmf-dist/tex/latex/geometry/geometry.sty" 1707423481 41601 9cf6c5257b1bc7af01a58859749dd37a ""
@@ -172,9 +174,9 @@
   "c:/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1707428714 8211064 7d8e4487f7fb5dfb1566bdc27a158ca8 ""
   "c:/texlive/2023/texmf.cnf" 1707428587 713 e69b156964470283e0530f5060668171 ""
   "example.png" 1724622272 7043 4989ffa36766a6b6b07a87232ce354f3 ""
-  "main.aux" 1724674272 854 9f230d6d9bdfe20d41365f8be13c6c41 "pdflatex"
-  "main.out" 1724674272 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.tex" 1724674271 12626 e91bdf5ad4abef4ed035e50d017c73b2 ""
+  "main.aux" 1724710866 936 c1ca1dfb6a2221e729ed2a7c21cc012a "pdflatex"
+  "main.out" 1724710866 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.tex" 1724710865 12500 878b5afcbdc3536e156a8c0ed15e71c9 ""
   (generated)
   "main.aux"
   "main.log"

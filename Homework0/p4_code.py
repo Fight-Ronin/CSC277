@@ -61,7 +61,7 @@ def train_model(model, criterion, optimizer, X_train, y_train, epochs=1000):
         losses.append(loss.item())
     return losses
 
-# Plot decision boundaries
+# Plot decision boundaries with class labels
 def plot_decision_boundary(model, X, y, title):
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
     y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
@@ -71,9 +71,21 @@ def plot_decision_boundary(model, X, y, title):
     model.eval()
     with torch.no_grad():
         Z = model(grid).argmax(dim=1).numpy().reshape(xx.shape)
-    plt.contourf(xx, yy, Z, alpha=0.8)
-    plt.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k', marker='o')
+    
+    # Plot the decision boundary with class regions
+    plt.contourf(xx, yy, Z, alpha=0.4, cmap=plt.cm.RdYlBu)
+    
+    # Plot also the training points
+    scatter = plt.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k', marker='o', cmap=plt.cm.RdYlBu)
+    
+    # Create a legend with class labels
+    legend1 = plt.legend(*scatter.legend_elements(),
+                         loc="upper right", title="Class")
+    plt.gca().add_artist(legend1)
+    
     plt.title(title)
+    plt.xlim(xx.min(), xx.max())
+    plt.ylim(yy.min(), yy.max())
     plt.show()
 
 # Main execution

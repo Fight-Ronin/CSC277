@@ -10,6 +10,7 @@
 \usepackage{hyperref}
 \usepackage{mathtools}
 \usepackage{enumerate}
+\usepackage{caption}  % Required for caption outside of figure
 \usepackage{tikz}
 
 
@@ -247,27 +248,22 @@ Please provide the following:
 \newpage
 
 \textbf{Answer:} \\
-\begin{enumerate}
-    \item
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width=0.25\textwidth]{Trainloss.png}
-        \caption{train loss curves for linear neural network and nonlinear neural network}
-    \end{figure}
-    
-    \item
-        \begin{table}[h!]
-            \centering
-                \begin{tabular}{|c|c|c|}
-                \hline
-                & Train Accuracy & Test Accuracy \\ \hline
-                Linear Model & 0.90 & 0.84 \\ \hline
-                Nonlinear Model & 0.92 & 0.82 \\ \hline
-                \end{tabular}
-            \caption{Training and Testing Accuracy of Models}
-        \end{table}
-    \item 
-\end{enumerate}
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Trainloss.png}
+    \captionof{figure}{Train loss curves for linear neural network and nonlinear neural network}
+\end{center}
+\\
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        & Train Accuracy & Test Accuracy \\ \hline
+        Linear Model & 0.90 & 0.84 \\ \hline
+        Nonlinear Model & 0.92 & 0.82 \\ \hline
+    \end{tabular}
+    \captionof{table}{Training and Testing Accuracy of Models}
+\end{center}
+\\
+
 
 
 
