@@ -6,6 +6,7 @@
 \usepackage{graphicx}				% Use pdf, png, jpg, or epsÂ§ with pdflatex; use eps in DVI mode
 								% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{hyperref}
 \usepackage{mathtools}
 \usepackage{enumerate}
@@ -57,11 +58,13 @@ Let matrix $\mathbf{A} \in \mathbb{R}^{n\times m}$ and matrix  $\mathbf{B} \in \
  If it is possible to compute the matrix product $\mathbf{AB}$, give the size of the matrix produced. Otherwise, write, `Not possible.' 
 
 \textbf{Answer:} \\
+Not possible. 
 
 \subsection*{Part 2 (1 point)}
 If it is possible to compute the matrix product $\mathbf{BA}$, give the size of the matrix produced. Otherwise, write, `Not possible.' 
 
 \textbf{Answer:} \\
+The size of the matrix produced is $ n \times m $.
 
 \clearpage
 
@@ -95,26 +98,31 @@ Low rank approximations are used in algorithms for updating large neural network
 Compute $\operatorname{rank}(\mathbf{A})$.
 
 \textbf{Answer:} \\
-$\operatorname{rank}(\mathbf{A}) = ?$.
+$\operatorname{rank}(\mathbf{A}) = 1$.
 
 \subsection*{Part 2 (1 points)}
 Compute $\operatorname{rank}(\mathbf{B})$.
 
 \textbf{Answer:} \\
-$\operatorname{rank}(\mathbf{B}) = ?$.
+$\operatorname{rank}(\mathbf{B}) = 2$.
 
 \subsection*{Part 3 (1 points)}
 Compute $\operatorname{rank}(\mathbf{D})$.  
 
 \textbf{Answer:} \\
-$\operatorname{rank}(\mathbf{D}) = ?$.
+$\operatorname{rank}(\mathbf{D}) = 2$.
 
 \subsection*{Part 4 (1 points)}
 Compute $\mathbf{AB}$ and $\operatorname{rank}(\mathbf{AB})$.  
 
 \textbf{Answer:} \\
-$AB = ?$ \\
-$\operatorname{rank}(\mathbf{AB}) = ?$.
+$AB = \left( {\begin{array}{*{20}r}
+    0 & 0 & 0  \\
+    4 & 20 & 10  \\
+ \end{array}} \right)
+$
+
+$\operatorname{rank}(\mathbf{AB}) = 1$.
 
 
 \subsection*{Part 5 - Compression with linearly dependent columns (5 points)}
@@ -124,13 +132,29 @@ You may read about the CR factorization \href{https://blogs.mathworks.com/cleve/
 
 \textbf{Answer:} \\
 
-$\mathbf{C} =$ 
+$\mathbf{C} = 
+\left( {\begin{array}{*{20}r}
+    1 & 1 \\
+    1 & 2 \\
+    1 & 1 \\
+    1 & 0 \\
+ \end{array}} \right)
+$ 
+\\
+\textit{NOTE: C consists of the linearly independent columns of D}
+\\
+$\mathbf{R} =
+\left( {\begin{array}{*{20}r}
+    1 & 0 & 1 & 2 & 3 & 4 \\
+    0 & 1 & 1 & 2 & 3 & 2 \\
+ \end{array}} \right)
+$
+\\
+\textit{NOTE: R is formed by expressing all columns of D as linear combinations of the columns in C}
 
-$\mathbf{R} =$
+Compression ratio: $\frac{24}{4 \times 2 + 2 \times 6} = \frac{24}{20} = 1.2$
 
-Compression ratio: $\frac{24}{??} = $
-
-The reason why $r$ is the rank of $\mathbf{D}$ is ...
+The reason why $r$ is the rank of $\mathbf{D}$ is because there are only 2 linearly independent columns in D.
 
 
 \clearpage
@@ -157,12 +181,44 @@ where $c\in \mathbb{R}$ is some constant and $\mathbf{1}$ denotes a column vecto
 
 \textbf{Solution:} \\
 
+Consider adding a constant $c$ to each of the element in vector $\mathbf{a}$, the softmax function for $\mathbf{a} + c\mathbf{1}$ is:
+\begin{proof}
+    \begin{equation*}
+        \operatorname{softmax} \left( {{\mathbf{a}} + {c\mathbf{1}}} \right) = \frac{\exp(\mathbf{a} + c\mathbf{1})}{\sum_{j=1}^{K}\exp(a_j + c)}
+    \end{equation*}
+    \\
+    Since $\exp(a + c\mathbf{1})$ applies element-wise, we have:
+    \begin{equation*}
+        \exp(\mathbf{a} + c\mathbf{1}) = \exp(\mathbf{a}) \cdot \exp(c)
+    \end{equation*}
+    \\
+    Thus, we can rewrite the softmax function as:
+    \begin{equation*}
+        \operatorname{softmax} \left( {{\mathbf{a}} + {c\mathbf{1}}} \right) = \frac{\exp(\mathbf{a}) \cdot \exp(c)}{\exp(c) \cdot \sum_{j=1}^{K}\exp(a_j)} = \frac{\exp(\mathbf{a})}{\sum_{j=1}^{K}\exp(a_j)}
+    \end{equation*}
+    \\
+    Hence,
+    \begin{equation*}
+        \operatorname{softmax} \left( {{\mathbf{a}} + {c\mathbf{1}}} \right) = \operatorname{softmax} \left( {{\mathbf{a}}} \right) 
+    \end{equation*}
+    The softmax function is invariant to adding a constant vector to its input.
+\end{proof}
+
 %----------------------------------
 \subsection*{Part 2 (3 points)}
 In practice, why is the observation that the softmax function is invariant to constant offsets to its input important when implementing it in a neural network?
 
 \textbf{Solution:} \\
 
+The invariance of the softmax function to constant offsets is important in neural networks because:
+\\
+\begin{enumerate}
+    \item \textbf{Numerical Stability:} Subtracting the maximum logit before applying softmax prevents overflow/underflow in the exponentials, ensuring stable computations.
+    \item \textbf{Interpretability:} The relative differences between logits determine the output probabilities, making the absolute scale irrelevant and allowing focus on relative confidence between classes.
+    \item \textbf{Model Flexibility:} This property permits shifts in logits (e.g., due to batch normalization) without affecting the final output, enabling more flexible model design. (i.e. due to the flexibility on ``paddings'')
+\end{enumerate}
+
+\newpage
 
 
 \section*{Problem 4 - Feedforward Fully-Connected Networks (10 points)}

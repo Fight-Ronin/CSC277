@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1724622296.11418 "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" "main.pdf" "main" 1724622297.01101 0
-  "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" 1724622272 9409 68897b982947346458abac0d9bf814c8 ""
+["pdflatex"] 1724640800.54737 "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" "main.pdf" "main" 1724640801.4482 0
+  "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" 1724640799 11945 52960caeb7a0b1288beea10aaf7748f2 ""
   "c:/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1707423307 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1707421856 1004 54797486969f23fa377b128694d548df ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1707421856 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -109,6 +109,7 @@
   "c:/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex" 1707425893 29239 22e8c7516012992a49873eff0d868fed ""
   "c:/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def" 1707425893 6950 8524a062d82b7afdc4a88a57cb377784 ""
   "c:/texlive/2023/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty" 1707428117 7008 f92eaa0a3872ed622bbf538217cd2ab7 ""
+  "c:/texlive/2023/texmf-dist/tex/latex/amscls/amsthm.sty" 1707421854 12594 0d51ac3a545aaaa555021326ff22a6cc ""
   "c:/texlive/2023/texmf-dist/tex/latex/amsfonts/amsfonts.sty" 1707421856 5949 3f3fd50a8cc94c3d4cbf4fc66cd3df1c ""
   "c:/texlive/2023/texmf-dist/tex/latex/amsfonts/amssymb.sty" 1707421856 13829 94730e64147574077f8ecfea9bb69af4 ""
   "c:/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd" 1707421856 961 6518c6525a34feb5e8250ffa91731cff ""
@@ -170,9 +171,9 @@
   "c:/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1707428714 8211064 7d8e4487f7fb5dfb1566bdc27a158ca8 ""
   "c:/texlive/2023/texmf.cnf" 1707428587 713 e69b156964470283e0530f5060668171 ""
   "example.png" 1724622272 7043 4989ffa36766a6b6b07a87232ce354f3 ""
-  "main.aux" 1724622296 523 b097d58f2d5b40ed0e4794c7c36fcd03 "pdflatex"
-  "main.out" 1724622296 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.tex" 1724622272 9409 68897b982947346458abac0d9bf814c8 ""
+  "main.aux" 1724640801 523 92bc183f8549f00bc6f2cafbfea7c41e "pdflatex"
+  "main.out" 1724640801 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.tex" 1724640799 11945 52960caeb7a0b1288beea10aaf7748f2 ""
   (generated)
   "main.aux"
   "main.log"
