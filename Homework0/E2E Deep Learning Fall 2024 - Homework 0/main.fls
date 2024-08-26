@@ -286,6 +286,11 @@ INPUT ./example.png
 INPUT ./example.png
 INPUT ./example.png
 INPUT ./example.png
+INPUT ./Trainloss.png
+INPUT ./Trainloss.png
+INPUT ./Trainloss.png
+INPUT ./Trainloss.png
+INPUT ./Trainloss.png
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out

@@ -240,13 +240,34 @@ Please provide the following:
 \begin{enumerate}
     \item Show the train loss curves in two plots for both networks (2 pts). Label one linear neural network and the other nonlinear neural network.
     \item Measure the accuracy of both networks on the testing \emph{and} training datasets (3 pts). Put this in a \LaTeX table.
-    \item   Create decision boundaries for both networks and show them. Make sure to label your plots. Feel free to find helper code online for displaying the decision boundary (5 pts). An example decision boundary is provided in Fig.~\ref{fig:example}. Show the training data points in the figure, and color them appropriately for their label.
+    \item Create decision boundaries for both networks and show them. Make sure to label your plots. Feel free to find helper code online for displaying the decision boundary (5 pts). An example decision boundary is provided in Fig.~\ref{fig:example}. Show the training data points in the figure, and color them appropriately for their label.
     \item Provide your code for credit.
-
 \end{enumerate}
 
+\newpage
 
 \textbf{Answer:} \\
+\begin{enumerate}
+    \item
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.25\textwidth]{Trainloss.png}
+        \caption{train loss curves for linear neural network and nonlinear neural network}
+    \end{figure}
+    
+    \item
+        \begin{table}[h!]
+            \centering
+                \begin{tabular}{|c|c|c|}
+                \hline
+                & Train Accuracy & Test Accuracy \\ \hline
+                Linear Model & 0.90 & 0.84 \\ \hline
+                Nonlinear Model & 0.92 & 0.82 \\ \hline
+                \end{tabular}
+            \caption{Training and Testing Accuracy of Models}
+        \end{table}
+    \item 
+\end{enumerate}
 
 
 

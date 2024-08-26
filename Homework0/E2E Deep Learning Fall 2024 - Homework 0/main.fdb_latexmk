@@ -1,6 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1724640800.54737 "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" "main.pdf" "main" 1724640801.4482 0
-  "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" 1724640799 11945 52960caeb7a0b1288beea10aaf7748f2 ""
+["pdflatex"] 1724674271.61147 "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" "main.pdf" "main" 1724674272.515 0
+  "Trainloss.png" 1724674033 26951 86e3535d41271e587ba300a6e7248fa0 ""
+  "c:/Users/yinha/Documents/CSC277/Homework0/E2E Deep Learning Fall 2024 - Homework 0/main.tex" 1724674271 12626 e91bdf5ad4abef4ed035e50d017c73b2 ""
   "c:/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1707423307 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1707421856 1004 54797486969f23fa377b128694d548df ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1707421856 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -171,9 +172,9 @@
   "c:/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1707428714 8211064 7d8e4487f7fb5dfb1566bdc27a158ca8 ""
   "c:/texlive/2023/texmf.cnf" 1707428587 713 e69b156964470283e0530f5060668171 ""
   "example.png" 1724622272 7043 4989ffa36766a6b6b07a87232ce354f3 ""
-  "main.aux" 1724640801 523 92bc183f8549f00bc6f2cafbfea7c41e "pdflatex"
-  "main.out" 1724640801 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.tex" 1724640799 11945 52960caeb7a0b1288beea10aaf7748f2 ""
+  "main.aux" 1724674272 854 9f230d6d9bdfe20d41365f8be13c6c41 "pdflatex"
+  "main.out" 1724674272 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.tex" 1724674271 12626 e91bdf5ad4abef4ed035e50d017c73b2 ""
   (generated)
   "main.aux"
   "main.log"
