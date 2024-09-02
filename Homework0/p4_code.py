@@ -8,15 +8,15 @@ from sklearn.metrics import accuracy_score
 
 # Load and preprocess the dataset from txt files
 def load_data(train_file, test_file):
-    # Load the data from text files with space as delimiter
+    
     train_data = np.loadtxt(train_file, delimiter=' ')
     test_data = np.loadtxt(test_file, delimiter=' ')
     
     # Split into features and labels
-    X_train = train_data[:, 1:]  # The first column is the label
-    y_train = train_data[:, 0].astype(int) - 1  # Convert labels to 0, 1, 2
+    X_train = train_data[:, 1:]  
+    y_train = train_data[:, 0].astype(int) - 1  # Convert labels to 0, 1, 2 to avoid indexing error
     X_test = test_data[:, 1:]
-    y_test = test_data[:, 0].astype(int) - 1  # Convert labels to 0, 1, 2
+    y_test = test_data[:, 0].astype(int) - 1  # Convert labels to 0, 1, 2 to avoid indexing error
     
     # Standardize the features
     scaler = StandardScaler()
