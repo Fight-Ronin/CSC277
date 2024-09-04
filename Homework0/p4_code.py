@@ -1,3 +1,4 @@
+# Load Required Dependencies
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,10 +14,11 @@ def load_data(train_file, test_file):
     test_data = np.loadtxt(test_file, delimiter=' ')
     
     # Split into features and labels
+    # Convert labels to 0, 1, 2 to avoid indexing error
     X_train = train_data[:, 1:]  
-    y_train = train_data[:, 0].astype(int) - 1  # Convert labels to 0, 1, 2 to avoid indexing error
+    y_train = train_data[:, 0].astype(int) - 1 
     X_test = test_data[:, 1:]
-    y_test = test_data[:, 0].astype(int) - 1  # Convert labels to 0, 1, 2 to avoid indexing error
+    y_test = test_data[:, 0].astype(int) - 1 
     
     # Standardize the features
     scaler = StandardScaler()
@@ -30,7 +32,8 @@ def load_data(train_file, test_file):
 class LinearModel(nn.Module):
     def __init__(self):
         super(LinearModel, self).__init__()
-        self.linear = nn.Linear(2, 3)  # 2 input features, 3 output classes
+        # 2 input features, 3 output classes
+        self.linear = nn.Linear(2, 3)
     
     def forward(self, x):
         return self.linear(x)
@@ -39,9 +42,11 @@ class LinearModel(nn.Module):
 class NonlinearModel(nn.Module):
     def __init__(self):
         super(NonlinearModel, self).__init__()
-        self.fc1 = nn.Linear(2, 5)  # 2 input features, 5 hidden units
+        # 2 input features, 5 hidden units
+        self.fc1 = nn.Linear(2, 5)  
         self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(5, 3)  # 5 hidden units, 3 output classes
+        # 5 hidden units, 3 output classes
+        self.fc2 = nn.Linear(5, 3)  
     
     def forward(self, x):
         x = self.relu(self.fc1(x))
@@ -72,13 +77,12 @@ def plot_decision_boundary(model, X, y, title):
     with torch.no_grad():
         Z = model(grid).argmax(dim=1).numpy().reshape(xx.shape)
     
-    # Plot the decision boundary with class regions
+    # Plot the decision boundary with classes
     plt.contourf(xx, yy, Z, alpha=0.4, cmap=plt.cm.RdYlBu)
     
-    # Plot also the training points
+    # Plot the training points
     scatter = plt.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k', marker='o', cmap=plt.cm.RdYlBu)
     
-    # Create a legend with class labels
     legend1 = plt.legend(*scatter.legend_elements(),
                          loc="upper right", title="Class")
     plt.gca().add_artist(legend1)
@@ -90,7 +94,7 @@ def plot_decision_boundary(model, X, y, title):
 
 # Main execution
 if __name__ == "__main__":
-    # Load data from text files
+    # Data loader
     X_train, y_train, X_test, y_test = load_data('iris-train.txt', 'iris-test.txt')
     
     # Initialize models, criterion, and optimizer
@@ -130,7 +134,7 @@ if __name__ == "__main__":
     train_acc2 = accuracy_score(y_train, train_preds2)
     test_acc2 = accuracy_score(y_test, test_preds2)
     
-    # Print accuracy in a LaTeX table
+    # For simplicity, printing the accuracy table in a LaTex
     print(f"\\begin{{table}}[h!]")
     print(f"\\centering")
     print(f"\\begin{{tabular}}{{|c|c|c|}}")

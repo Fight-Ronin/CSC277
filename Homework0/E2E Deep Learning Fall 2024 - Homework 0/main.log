@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.2.8)  1 SEP 2024 21:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.2.8)  3 SEP 2024 21:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -498,8 +498,7 @@ File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count315
 \l__pdf_internal_box=\box65
-)
-No file main.aux.
+) (./main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -520,6 +519,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -724,58 +724,48 @@ Underfull \hbox (badness 10000) in paragraph at lines 276--277
 
  []
 
-
-Overfull \hbox (24.14171pt too wide) in paragraph at lines 430--430
-[]        \OT1/cmtt/m/n/10.95 y_train = train_data[:, 0].astype(int) - 1  # Convert labels to 0, 1, 2[] 
- []
-
-
-Overfull \hbox (12.64433pt too wide) in paragraph at lines 430--430
-[]        \OT1/cmtt/m/n/10.95 y_test = test_data[:, 0].astype(int) - 1  # Convert labels to 0, 1, 2[] 
- []
-
 [10 <./NonlinearDecisionBoundary.png>]
-Overfull \hbox (24.14171pt too wide) in paragraph at lines 430--430
-[]            \OT1/cmtt/m/n/10.95 self.linear = nn.Linear(2, 3)  # 2 input features, 3 output classes[] 
- []
-
-
-Overfull \hbox (12.64433pt too wide) in paragraph at lines 430--430
+Overfull \hbox (12.64433pt too wide) in paragraph at lines 435--435
 []    \OT1/cmtt/m/n/10.95 # Define the second model: Nonlinear Neural Network with one hidden layer[] 
  []
 
 
-Overfull \hbox (29.8904pt too wide) in paragraph at lines 430--430
+Overfull \hbox (29.8904pt too wide) in paragraph at lines 435--435
 []    \OT1/cmtt/m/n/10.95 def train_model(model, criterion, optimizer, X_train, y_train, epochs=1000):[] 
  []
 
 [11]
-Overfull \hbox (24.14171pt too wide) in paragraph at lines 430--430
+Overfull \hbox (24.14171pt too wide) in paragraph at lines 435--435
 []        \OT1/cmtt/m/n/10.95 grid = torch.tensor(np.c_[xx.ravel(), yy.ravel()], dtype=torch.float32)[] 
  []
 
 
-Overfull \hbox (70.13121pt too wide) in paragraph at lines 430--430
+Overfull \hbox (24.14171pt too wide) in paragraph at lines 435--435
+[]                                \OT1/cmtt/m/n/10.95 edgecolors='k', marker='o', cmap=plt.cm.RdYlBu)[] 
+ []
+
+
+Overfull \hbox (70.13121pt too wide) in paragraph at lines 435--435
 []        \OT1/cmtt/m/n/10.95 X_train, y_train, X_test, y_test = load_data('iris-train.txt', 'iris-test.txt')[] 
  []
 
 [12]
-Overfull \hbox (18.39302pt too wide) in paragraph at lines 430--430
+Overfull \hbox (18.39302pt too wide) in paragraph at lines 435--435
 []        \OT1/cmtt/m/n/10.95 losses1 = train_model(model1, criterion, optimizer1, X_train, y_train)[] 
  []
 
 
-Overfull \hbox (18.39302pt too wide) in paragraph at lines 430--430
+Overfull \hbox (18.39302pt too wide) in paragraph at lines 435--435
 []        \OT1/cmtt/m/n/10.95 losses2 = train_model(model2, criterion, optimizer2, X_train, y_train)[] 
  []
 
 
-Overfull \hbox (29.8904pt too wide) in paragraph at lines 430--430
+Overfull \hbox (29.8904pt too wide) in paragraph at lines 435--435
 []        \OT1/cmtt/m/n/10.95 print(f"Linear Model & {train_acc1:.2f} & {test_acc1:.2f} \\\\ \\hline")[] 
  []
 
 
-Overfull \hbox (47.13646pt too wide) in paragraph at lines 430--430
+Overfull \hbox (47.13646pt too wide) in paragraph at lines 435--435
 []        \OT1/cmtt/m/n/10.95 print(f"Nonlinear Model & {train_acc2:.2f} & {test_acc2:.2f} \\\\ \\hline")[] 
  []
 
@@ -801,10 +791,10 @@ Package rerunfilecheck Info: Checksums for `main.out':
 (rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22617 strings out of 474222
- 416555 string characters out of 5750210
+ 22620 strings out of 474222
+ 416594 string characters out of 5750210
  1935978 words of memory out of 5000000
- 44480 multiletter control sequences out of 15000+600000
+ 44481 multiletter control sequences out of 15000+600000
  567085 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,9n,93p,816b,657s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -812,7 +802,7 @@ Here is how much of TeX's memory you used:
 pdfTeX warning (dest): name{https://blog.writefull.com/texgpt-harness-the-power-of-chatgpt-in-overleaf/} has been referenced but does not exist, replaced by a fixed one
 
 <c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (14 pages, 274496 bytes).
+Output written on main.pdf (14 pages, 276195 bytes).
 PDF statistics:
  200 PDF objects out of 1000 (max. 8388607)
  144 compressed objects within 2 object streams
