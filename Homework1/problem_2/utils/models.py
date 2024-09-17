@@ -45,7 +45,8 @@ class ResNet(nn.Module):
         self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2)
         self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2)
         self.fc1 = nn.Linear(512*block.expansion, num_classes, bias=True)
-        self.fc2 = nn.Linear(num_classes, 128)
+        # self.fc2 = nn.Linear(num_classes, 128)
+        
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight, mode="fan_out", nonlinearity="relu")
@@ -71,7 +72,7 @@ class ResNet(nn.Module):
         out = F.avg_pool2d(out, 4)
         out = out.view(out.size(0), -1)
         out = F.relu(self.fc1(out))
-        out = self.fc2(out)
+        # out = self.fc2(out)
         return out
 
 

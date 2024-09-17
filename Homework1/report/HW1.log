@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.2.8)  11 SEP 2024 14:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.9.13)  16 SEP 2024 21:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/yinha/Documents/CSC277/Homework1/HW1.tex
-(c:/Users/yinha/Documents/CSC277/Homework1/HW1.tex
+**c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex
+(c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
 (c:/texlive/2023/texmf-dist/tex/latex/base/article.cls
@@ -466,43 +466,60 @@ File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \tikz@expandcount=\count312
  (c:/texlive/2023/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (c:/texlive/2023/texmf-dist/tex/generic/ulem/ulem.sty
+))) (c:/texlive/2023/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (c:/texlive/2023/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen280
+\captionmargin=\dimen281
+\caption@leftmargin=\dimen282
+\caption@rightmargin=\dimen283
+\caption@width=\dimen284
+\caption@indent=\dimen285
+\caption@parindent=\dimen286
+\caption@hangindent=\dimen287
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count313
+\c@continuedfloat=\count314
+Package caption Info: hyperref package is loaded.
+) (c:/texlive/2023/texmf-dist/tex/generic/ulem/ulem.sty
 \UL@box=\box65
 \UL@hyphenbox=\box66
 \UL@skip=\skip58
 \UL@hook=\toks38
-\UL@height=\dimen280
-\UL@pe=\count313
-\UL@pixel=\dimen281
+\UL@height=\dimen288
+\UL@pe=\count315
+\UL@pixel=\dimen289
 \ULC@box=\box67
 Package: ulem 2019/11/18
-\ULdepth=\dimen282
+\ULdepth=\dimen290
 ) (c:/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count314
+\l__color_backend_stack_int=\count316
 \l__pdf_internal_box=\box68
-) (./HW1.aux)
+)
+No file HW1.aux.
 \openout1 = `HW1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -539,16 +556,16 @@ LaTeX Font Info:    ... okay on input line 24.
 
 (c:/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count315
-\scratchdimen=\dimen283
+\scratchcounter=\count317
+\scratchdimen=\dimen291
 \scratchbox=\box69
-\nofMPsegments=\count316
-\nofMParguments=\count317
+\nofMPsegments=\count318
+\nofMParguments=\count319
 \everyMPshowfont=\toks39
-\MPscratchCnt=\count318
-\MPscratchDim=\dimen284
-\MPnumerator=\count319
-\makeMPintoPDFobject=\count320
+\MPscratchCnt=\count320
+\MPscratchDim=\dimen292
+\MPnumerator=\count321
+\makeMPintoPDFobject=\count322
 \everyMPtoPDFconversion=\toks40
 ) (c:/texlive/2023/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -562,115 +579,272 @@ Package grfext Info: Graphics extension search list:
  (c:/texlive/2023/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 24.
- (./HW1.out) (./HW1.out)
+Package hyperref Info: Link coloring OFF on input line 25.
 \@outlinefile=\write4
 \openout4 = `HW1.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 27.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 28.
  (c:/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 27.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 28.
  (c:/texlive/2023/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 41.
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 42.
  (c:/texlive/2023/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 41.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 42.
  [1
 
 {c:/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2
 
 {c:/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 98--99
+Underfull \hbox (badness 10000) in paragraph at lines 99--100
 
  []
 
+<p1p1_pic/Experiment_Config.png, id=46, 1789.68625pt x 501.875pt>
+File: p1p1_pic/Experiment_Config.png Graphic file (type png)
+<use p1p1_pic/Experiment_Config.png>
+Package pdftex.def Info: p1p1_pic/Experiment_Config.png  used on input line 101.
+(pdftex.def)             Requested size: 215.0023pt x 60.29132pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 114--115
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 102.
+See the caption package documentation for explanation.
+
+<p1p1_pic/Logged_Charts.png, id=47, 1780.6525pt x 788.9475pt>
+File: p1p1_pic/Logged_Charts.png Graphic file (type png)
+<use p1p1_pic/Logged_Charts.png>
+Package pdftex.def Info: p1p1_pic/Logged_Charts.png  used on input line 106.
+(pdftex.def)             Requested size: 215.0023pt x 95.25949pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 107.
+See the caption package documentation for explanation.
+
+[3 <./p1p1_pic/Experiment_Config.png> <./p1p1_pic/Logged_Charts.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
+
+ []
+
+<p2p1_pic/SweepChart1.png, id=57, 1394.20876pt x 710.655pt>
+File: p2p1_pic/SweepChart1.png Graphic file (type png)
+<use p2p1_pic/SweepChart1.png>
+Package pdftex.def Info: p2p1_pic/SweepChart1.png  used on input line 130.
+(pdftex.def)             Requested size: 215.0023pt x 109.5865pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 131.
+See the caption package documentation for explanation.
+
+[4 <./p2p1_pic/SweepChart1.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 179--180
 
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 126--127
+<p2p2_pic/SchedulerChart1.png, id=65, 1732.4725pt x 725.71124pt>
+File: p2p2_pic/SchedulerChart1.png Graphic file (type png)
+<use p2p2_pic/SchedulerChart1.png>
+Package pdftex.def Info: p2p2_pic/SchedulerChart1.png  used on input line 181.
+(pdftex.def)             Requested size: 215.0023pt x 90.06035pt.
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 141--142
-
- []
-
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 154--155
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 173--174
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--179
-
- []
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 182.
+See the caption package documentation for explanation.
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 183--184
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
 
  []
 
+[6 <./p2p2_pic/SchedulerChart1.png>]
+<p3p1_pic/ScaleLearningWBatchSizeChart1.png, id=79, 1400.23125pt x 358.33875pt>
+File: p3p1_pic/ScaleLearningWBatchSizeChart1.png Graphic file (type png)
+<use p3p1_pic/ScaleLearningWBatchSizeChart1.png>
+Package pdftex.def Info: p3p1_pic/ScaleLearningWBatchSizeChart1.png  used on input line 203.
+(pdftex.def)             Requested size: 215.0023pt x 55.01701pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 190--191
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 204.
+See the caption package documentation for explanation.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 207--211
 
  []
 
+[7 <./p3p1_pic/ScaleLearningWBatchSizeChart1.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 228--229
 
-Overfull \hbox (10.36214pt too wide) in paragraph at lines 204--205
+ []
+
+<p1p4_pic/PretrainModel.png, id=87, 1486.55376pt x 367.3725pt>
+File: p1p4_pic/PretrainModel.png Graphic file (type png)
+<use p1p4_pic/PretrainModel.png>
+Package pdftex.def Info: p1p4_pic/PretrainModel.png  used on input line 230.
+(pdftex.def)             Requested size: 215.0023pt x 53.1303pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 231.
+See the caption package documentation for explanation.
+
+
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:234: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.234 P
+       re-training improves model initialization, accelerating convergence a...
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[8 <./p1p4_pic/PretrainModel.png>] [9]
+Overfull \hbox (35.63908pt too wide) in paragraph at lines 325--325
+[]        \OT1/cmtt/m/n/10.95 f"Validation set: {len(val_dataset) - len(val_dataset_cleaned)} images, "[] 
+ []
+
+
+Overfull \hbox (12.64433pt too wide) in paragraph at lines 325--325
+[]        \OT1/cmtt/m/n/10.95 f"Test set: {len(test_dataset) - len(test_dataset_cleaned)} images.")[] 
+ []
+
+
+Overfull \hbox (1.14696pt too wide) in paragraph at lines 325--325
+[]    \OT1/cmtt/m/n/10.95 return train_dataset_cleaned, val_dataset_cleaned, test_dataset_cleaned[] 
+ []
+
+
+Overfull \hbox (58.63383pt too wide) in paragraph at lines 333--333
+[]    \OT1/cmtt/m/n/10.95 AssertionError: Output shape mismatch: Expected (4, 10), got torch.Size([4, 128])[] 
+ []
+
+[10]
+Overfull \hbox (5.98537pt too wide) in paragraph at lines 334--341
+\OT1/cmr/m/n/10.95 Removing the fc2 layer or chang-ing it to pro-duce num[]classes out-puts di-rectly from fc1. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 361--362
+
+ []
+
+<p1lr_pic/learningRate.png, id=107, 462.528pt x 346.896pt>
+File: p1lr_pic/learningRate.png Graphic file (type png)
+<use p1lr_pic/learningRate.png>
+Package pdftex.def Info: p1lr_pic/learningRate.png  used on input line 363.
+(pdftex.def)             Requested size: 215.0023pt x 161.25203pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 364.
+See the caption package documentation for explanation.
+
+[11]
+Overfull \hbox (13.47057pt too wide) in paragraph at lines 367--372
+\OT1/cmr/bx/n/10.95 All the Code im-ple-men-ta-tions for above ques-tions are avali-able in \OT1/cmr/bx/it/10.95 model[]testing.py
+ []
+
+
+Overfull \hbox (10.36214pt too wide) in paragraph at lines 384--386
 \OT1/cmr/bx/n/10.95 Hint\OT1/cmr/m/n/10.95 : Con-sider how Batch-Norm op-er-a-tion would in-flu-ence the pres-ence of dy-ing ReLU. 
  []
 
+[12 <./p1lr_pic/learningRate.png>]
 
-Underfull \hbox (badness 10000) in paragraph at lines 206--207
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:396: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.396 \textbf
+             {Code Implementation: }
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[13]
+<p2br_pic/Brightness_accuracy.png, id=134, 462.528pt x 346.896pt>
+File: p2br_pic/Brightness_accuracy.png Graphic file (type png)
+<use p2br_pic/Brightness_accuracy.png>
+Package pdftex.def Info: p2br_pic/Brightness_accuracy.png  used on input line 445.
+(pdftex.def)             Requested size: 215.0023pt x 161.25203pt.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 446.
+See the caption package documentation for explanation.
+
+[14 <./p2br_pic/Brightness_accuracy.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 466--467
 
  []
 
-[6]
-Underfull \hbox (badness 10000) in paragraph at lines 221--222
+<p2ro_pic/Rotation_accuracy.png, id=144, 462.528pt x 346.896pt>
+File: p2ro_pic/Rotation_accuracy.png Graphic file (type png)
+<use p2ro_pic/Rotation_accuracy.png>
+Package pdftex.def Info: p2ro_pic/Rotation_accuracy.png  used on input line 468.
+(pdftex.def)             Requested size: 215.0023pt x 161.25203pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 469.
+See the caption package documentation for explanation.
+
+[15 <./p2ro_pic/Rotation_accuracy.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 494--495
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 239--240
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:506: LaTeX Error: There's no line here to end.
 
- []
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.506 T
+       he differences in both mean and standard deviation suggest that there...
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
-[7] (./HW1.aux)
+[16] (./HW1.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-Package rerunfilecheck Info: File `HW1.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+
+
+Package rerunfilecheck Warning: File `HW1.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `HW1.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21327 strings out of 474222
- 390939 string characters out of 5750210
- 1932978 words of memory out of 5000000
- 43185 multiletter control sequences out of 15000+600000
- 566911 words of font info for 70 fonts, out of 8000000 for 9000
+ 22719 strings out of 474222
+ 418813 string characters out of 5750209
+ 1933978 words of memory out of 5000000
+ 44558 multiletter control sequences out of 15000+600000
+ 567270 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,6n,93p,1027b,483s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on HW1.pdf (7 pages, 170375 bytes).
+ 84i,6n,93p,1034b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on HW1.pdf (16 pages, 1108487 bytes).
 PDF statistics:
- 166 PDF objects out of 1000 (max. 8388607)
- 131 compressed objects within 2 object streams
- 43 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 243 PDF objects out of 1000 (max. 8388607)
+ 181 compressed objects within 2 object streams
+ 61 named destinations out of 1000 (max. 500000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 
