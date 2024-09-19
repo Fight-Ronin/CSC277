@@ -77,6 +77,40 @@ def evaluate(model, data_loader, device):
     :param model: instance of model  
     :param data_loader: instance of data loader
     :param device: cpu or cuda
+    :return: accuracy, total cross-entropy loss, and list of losses per step (batch)
+    """
+    model.eval()  # Set model to evaluation mode
+    total_loss = 0.0
+    correct_predictions = 0
+    total_predictions = 0
+    criterion = nn.CrossEntropyLoss(reduction='sum')  # Loss summed over the batch
+
+    with torch.no_grad():
+        for inputs, labels in data_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
+            outputs = model(inputs)
+
+            loss = criterion(outputs, labels)
+            total_loss += loss.item()  # Accumulate total loss
+
+            _, predicted = torch.max(outputs, 1)
+
+
+            correct_predictions += (predicted == labels).sum().item()
+            total_predictions += labels.size(0) 
+
+    accuracy = correct_predictions / total_predictions
+
+    model.train()
+
+    # Return accuracy, total loss, and the list of loss values per step
+    return accuracy, total_loss, loss.item()
+'''
+def evaluate(model, data_loader, device):
+    """
+    :param model: instance of model  
+    :param data_loader: instance of data loader
+    :param device: cpu or cuda
     :return: accuracy, cross entropy loss (sum)
     """
     # Modified eval. function
@@ -100,22 +134,34 @@ def evaluate(model, data_loader, device):
     accuracy = correct_predictions / total_predictions
     model.train()  # Set the model back to training mode
     return accuracy, total_loss, loss.item()
+'''
 
  # Define custom Dataset class
 class OxfordPetsDataset(Dataset):
-    def __init__(self, dataframe, transform=None):
-        self.dataframe = dataframe
+    def __init__(self, dataframe, split, label_map, transform=None):
+        """
+        Args:
+        - dataframe (pd.DataFrame): The full dataframe containing image paths, labels, and splits.
+        - split (str): The split to use ('train', 'val', or 'test').
+        - label_map (dict): Predefined label map to ensure consistency across splits.
+        - transform (callable, optional): Optional transform to be applied on a sample.
+        """
+        # Filter the dataframe to only include the specified split
+        self.dataframe = dataframe[dataframe['split'] == split]
         self.transform = transform
-        # Creating a mapping of labels to integers
-        self.label_map = {label: idx for idx, label in enumerate(dataframe['label'].unique())}
+        self.label_map = label_map  # Use the globally consistent label map
 
     def __len__(self):
         return len(self.dataframe)
 
     def __getitem__(self, idx):
-        img_path = self.dataframe.iloc[idx]['image_path']
-        # Use the map to convert label strings to integers
-        label = self.label_map[self.dataframe.iloc[idx]['label']]
+        img_name = self.dataframe.iloc[idx]['image_name']
+        img_path = f"data/images/{img_name}"  # Adjust path accordingly
+        label = self.dataframe.iloc[idx]['label']
+
+        # Convert label to its corresponding integer value
+        label = self.label_map[label]
+
         image = Image.open(img_path).convert('RGB')  # Convert image to RGB
 
         if self.transform:
@@ -151,7 +197,10 @@ def train_model(
     # Note that in your transform, you should include resize the image to 224x224, and normalize the image with appropriate mean and std
 
     df = pd.read_csv('problem_1/oxford_pet_split.csv')
-    df['image_path'] = df['image_name'].apply(lambda x: os.path.join('data/images', x))
+    # Create a consistent label map based on the entire dataset
+    all_labels = df['label'].unique()
+    label_map = {label: idx for idx, label in enumerate(all_labels)}
+    # print(label_map)
 
     transform = transforms.Compose([
         transforms.Resize((224, 224)),  # Resize images to 224x224 as required by ResNet-18
@@ -159,13 +208,10 @@ def train_model(
         # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # Normalize using ImageNet statistics
     ])
 
-    train_df = df[df['split'] == 'train']
-    val_df = df[df['split'] == 'val']
-    test_df = df[df['split'] == 'test']
-
-    train_set = OxfordPetsDataset(train_df, transform=transform)
-    val_set = OxfordPetsDataset(val_df, transform=transform)
-    test_set = OxfordPetsDataset(test_df, transform=transform)
+    # Create the dataset for training, validation, and test, reusing the same label map
+    train_set = OxfordPetsDataset(dataframe=df, split='train', label_map=label_map, transform=transform)
+    val_set = OxfordPetsDataset(dataframe=df, split='val', label_map=label_map, transform=transform)
+    test_set = OxfordPetsDataset(dataframe=df, split='test', label_map=label_map, transform=transform)
 
     n_train, n_val, n_test = len(train_set), len(val_set), len(test_set)
     loader_args = dict(batch_size=batch_size, num_workers=4)
@@ -179,7 +225,7 @@ def train_model(
     # Initialize a new wandb run and log experiment config parameters; don't forget the run name
     # you can also set run name to reflect key hyperparameters, such as learning rate, batch size, etc.: run_name = f'lr_{learning_rate}_bs_{batch_size}...'
     # code here
-    
+
     wandb.init(
         project="oxford_pet_classification_pre-trained",
         name=f"lr_{learning_rate}_bs_{batch_size}_epochs_{epochs}",
@@ -198,8 +244,9 @@ def train_model(
         }
     )
 
-    # optimizer = optim.Adam(model.parameters(), lr=learning_rate, betas=(beta1, beta2), eps=epsilon)
-    optimizer = optim.AdamW(model.parameters(), lr=learning_rate, betas=(beta1, beta2), eps=epsilon)
+    # optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate, betas=(beta1, beta2), eps=epsilon)
+    # optimizer = optim.AdamW(model.parameters(), lr=learning_rate, betas=(beta1, beta2), eps=epsilon)
     scheduler = get_scheduler(use_scheduler, optimizer, max_lr=learning_rate,
                               total_steps=total_training_steps, pct_start=0.1, final_div_factor=10)
 
@@ -222,7 +269,7 @@ def train_model(
     # for sample in train_loader:
        # print(sample)
        # break  # Just print the first batch to check its structure
-    
+
     for epoch in range(1, epochs + 1):
         model.train()
         with tqdm(total=batch_steps * batch_size, desc=f'Epoch {epoch}/{epochs}', unit='img') as pbar:
@@ -372,20 +419,18 @@ if __name__ == '__main__':
         use_scheduler=True,
     )
     '''
-
-    # Create a sweep ID and project name
     '''
+    # Create a sweep ID and project name
     rid = random.randint(0, 1000000)
     set_seed(42)
     sweep_id = wandb.sweep(sweep_config, project="oxford_pet_classification_sweep")
     # Use the wandb agent to run the sweep_train function
     wandb.agent(sweep_id, function=sweep_train)
     '''
-
-    # Learning Rate Adjustion (For Adam Optimizer)
     '''
+    # Learning Rate Adjustion (For Adam Optimizer)
     rid = random.randint(0, 1000000)
-    original_batch_size = 32 
+    original_batch_size = 32
     set_seed(42)
     args = get_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -393,7 +438,7 @@ if __name__ == '__main__':
 
     # Run experiments with different batch sizes and scaled learning rates
     for batch_size in [original_batch_size // 2, original_batch_size, original_batch_size * 2]:
-        for scale_lr in [True, False]:
+        for scale_lr in [False]:
             train_model(
                 run_name=f'bs_{batch_size}_scale_lr_{scale_lr}',
                 model=model,
@@ -407,7 +452,6 @@ if __name__ == '__main__':
                 scale_lr=scale_lr
             )
     '''
-
     # Using Pretrained Model for fine-tuning tasks.
     rid = random.randint(0, 1000000)
     original_batch_size = 32 
@@ -420,8 +464,8 @@ if __name__ == '__main__':
     model.fc = nn.Linear(model.fc.in_features, num_classes)
 
     # Run experiments with different batch sizes and scaled learning rates
-    for batch_size in [original_batch_size // 2, original_batch_size]:
-        for scale_lr in [True]:
+    for batch_size in [original_batch_size]:
+        for scale_lr in [False]:
             train_model(
                 run_name=f'bs_{batch_size}_scale_lr_{scale_lr}',
                 model=model,
@@ -434,3 +478,4 @@ if __name__ == '__main__':
                 original_batch_size=original_batch_size,
                 scale_lr=scale_lr
             )
+    

@@ -108,7 +108,7 @@ Execute the experiment using the \textbf{default} setup. Log in to the W\&B webs
 \end{center}
 
 The data has been loaded successfully to W \& B as the graph shown. 
-The experiment with a very low accuracy and a very high loss matches my expectation since for the first sweep we have only used the default parameters on the dataset.
+The experiment with a realtively very low accuracy and a fluctuated loss matches my expectation since for the first sweep we have only used the default parameters on the dataset.
 \\
 Looking at the validation loss and validation accuracy, the former one continually grows and the latter one fluctuates hard along with epochs of training. Thus, the training is clearly not converged yet.
 
@@ -383,7 +383,7 @@ Load the trained model using \texttt{get\_trained\_model()} function, and the te
 \end{enumerate}
 \textbf{Hint}:
 Consider how BatchNorm operation would influence the presence of dying ReLU.
-    
+
 \textbf{Answer:} \\
 Dying ReLU might occur in the deeper convolutional layers (e.g., $layer3$ and $layer4$) where the inputs might have already passed through several ReLU functions. This cumulative effect can cause more neurons to output zero, especially when weights initialized poorly or gradients vanish during backpropagation. Moreover, this issue might also occur in the initial ReLU layers ($bn1$ after $conv1$) if the preceding batch-norm (BatchNorm2d) layer scales inputs to negative values, making the ReLU output zero.
 \\
