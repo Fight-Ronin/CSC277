@@ -98,19 +98,16 @@ Execute the experiment using the \textbf{default} setup. Log in to the W\&B webs
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p1p1_pic/Experiment_Config.png}
+    \includegraphics[width=0.5\textwidth]{report_pic/Experiment_Config.png}
     \captionof{figure}{Linear Decision Boundary Graph}
 \end{center}
 
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p1p1_pic/Logged_Charts.png}
+    \includegraphics[width=0.5\textwidth]{report_pic/Logged_Charts.png}
     \captionof{figure}{Linear Decision Boundary Graph}
 \end{center}
 
-The data has been loaded successfully to W \& B as the graph shown. 
-The experiment with a realtively very low accuracy and a fluctuated loss matches my expectation since for the first sweep we have only used the default parameters on the dataset.
-\\
-Looking at the validation loss and validation accuracy, the former one continually grows and the latter one fluctuates hard along with epochs of training. Thus, the training is clearly not converged yet.
+The logged charts indicate that the training process has not yet fully converged. While the steadily decreasing training loss suggests the model is learning, the fluctuating validation loss points to poor generalization. Although validation accuracy improves from 0.05 to 0.3, the instability in validation loss hints at possible overfitting or the need for additional training. To enhance performance, increasing the number of epochs, tuning the learning rate, and incorporating a learning rate scheduler could help stabilize the process and improve generalization.
 
 \subsection*{Part 2: Tuning Hyperparameters}
 In this section, you'll experiment with key hyperparameters like learning rate and scheduler. For each step, change only one configuration at a time. Try not modify other hyperparameters (except batch size, which can be adjusted based on your computing resources).
@@ -127,7 +124,7 @@ In this section, you'll experiment with key hyperparameters like learning rate a
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p2p1_pic/SweepChart1.png}
+    \includegraphics[width=0.5\textwidth]{report_pic/SweepChart1.png}
     \captionof{figure}{Learning Rate Sweep Charts}
 \end{center}
 
@@ -159,12 +156,7 @@ sweep_config = {
 
 \textbf{Analysis: }
 \\
-Lower learning rates (LR: 0.00001 and LR: 0.0001) have generally resulted in a slower reduction in training loss. This indicates that smaller steps in gradient descent might be taking more time to converge or may need more epochs to achieve lower loss. This explained why they are having realtively low final test accuracy with high final test loss.
-The second highest learning rate (LR: 0.001) resulted in the fastest decrease in training loss, suggesting that realtively larger steps initially help in faster convergence for the model.
-
-Final test loss and accuracy charts reveal that no single learning rate distinctly outperforms others across both metrics. However, the largest learning rates (LR: 0.01) tend to have lower final test loss, suggesting better generalization when large steps are used.
-
-As a result, using the lower learning rate 0.0001 performs the best with both high accuracy and low lost for the given dataset using resnet18 network structure.
+The graph shows that In our model, charmed-sweep-2, with its ``appropriate'' (not too high and not to low) learning rate (LR: 0.0001), leads to faster convergence and the highest test accuracy. The smart-sweep-3 (LR: 0.00001) with relatively lower learning rate might poses risks of instability and potential overfitting, as indicated by fluctuating validation loss. In contrast, smart-sweep-1 (LR: 0.01) and sage-sweep-4 (LR: 0.001), with larger learning rates, exhibit slower descent in training loss and strong fluctuations in validation loss with lower accuracy, potentially indicating risks of instability and potential overfitting as well. Overall, the choice of learning rate should balance quick convergence with the need for stable, reliable generalization, it should be in a appropriate scale avoiding too high or too low values. 
 
 \subsubsection*{2.2. Learning Rate Scheduler (4 points)}
 
@@ -178,15 +170,13 @@ Learning rate schedulers dynamically adjust the learning rate during training, i
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p2p2_pic/SchedulerChart1.png}
+    \includegraphics[width=0.5\textwidth]{report_pic/SchedulerChart.png}
     \captionof{figure}{Scheduler Chart}
 \end{center}
 
 \textbf{Analysis: }
 \\
-The OneCycleLR scheduler profoundly impacts the training dynamics, which is illustrated by the learning rate peaking at approximately 0.001 before sharply declining. This method accelerates initial convergence, highlighted by the training loss which quickly drops from around 3.0 to under 1.0 within the first few epochs. 
-Despite such start, the validation accuracy shows considerable fluctuation, swinging between roughly 0.0339 and 0.0148, indicating a potential misalignment between training progress and generalization. 
-Additionally, the final test accuracy stabilizes at about 0.02571, suggesting that while the dynamic adjustment of the learning rate helps in navigating the parameter space effectively, it might need more nuanced parameter tuning and more training epochs to fully captured the ``pattern'' of the dataset with some generalization power.
+The OneCycleLR scheduler leads to significantly better performance compared to the baseline. In the baseline, where the learning rate remains static, the model shows slower convergence, with training loss fluctuating between 3.0 and 1.5, and final test accuracy stagnating around 0.32. In contrast, with the OneCycleLR scheduler, the learning rate peaks early and then decreases, resulting in faster convergence, with training loss dropping from 3.0 to below 1.0, and final test accuracy improving to approximately 0.6. The validation accuracy also shows steadier improvement, highlighting the scheduler's effectiveness in enhancing both learning stability and final performance. The OneCycleLR scheduler positively impacts the learning process by initially allowing larger learning rate updates to accelerate convergence and avoid potentially local minima, and later reducing the learning rate to refine the model’s performance.
 
 \subsection*{Part 3: Scaling Learning Rate with Batch Size (5 points)}
 
@@ -200,7 +190,7 @@ As observed in previous parts, the choice of learning rate is crucial for effect
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p3p1_pic/ScaleLearningWBatchSizeChart1.png}
+    \includegraphics[width=0.5\textwidth]{report_pic/LearningRateBatch.png}
     \captionof{figure}{Scheduler Chart}
 \end{center}
 
@@ -208,16 +198,10 @@ As observed in previous parts, the choice of learning rate is crucial for effect
 \\
 The blog post suggests using the square root scaling rule to adjust the learning rate when changing the batch size, predicting that such adjustments should maintain or improve model performance.
 \\
-\begin{itemize}
-    \item Validation Accuracy: The chart shows that models trained with a larger batch size ($bs\_64$) tend to have lower validation accuracy compared to models trained with a smaller batch size ($bs\_32$). This is consistent with expectation that increasing the batch size without scaling the learning rate may not improve generalization performance.
-    \item Training Loss: The training loss decreases for all models, but models with smaller batch sizes (like $bs\_16$ and $bs\_32$) show a steeper decline, indicating faster convergence. The models with larger batch sizes ($bs\_64$) converge slowly, aligninh with the claim that larger batch sizes require a scaled learning rate for efficient training.
-    \item Final Test Accuracy: The results show that the test accuracy is generally higher for models with smaller batch sizes ($bs\_32$), particularly when the learning rate is appropriately scaled. This indicates that increasing the batch size without scaling learning rate degrade the performance.
-\end{itemize}
-Overall, the results align with the blog's recommendation: scaling the learning rate appropriately when adjusting batch size helps maintain or improve model performance.
+From the supplemental graph, we can observe more detailed evidence supporting the scaling patterns outlined in the blog post. The models with a batch size of 64 with default learning rate of 0.001 and scaled learning rate 0.0014142 (green and yellow lines) show more stable improvements in training and validation metrics, aligning with the theory that learning rates should scale linearly with batch size increases. The lr\_0.0014\_bs\_64\_epochs\_10 model achieves the lowest training loss loss (around 0.05 when seen\_example = 40k) and the highest validation accuracy (above 0.4), reflecting the benefits of higher learning rates with larger batch sizes, as discussed in the blog. Meanwhile, the models with smaller batch sizes (16 and 32) and lower learning rates show more gradual progress, confirming the scaling rules. In conclusion, such observation matches the pattern that larger batch sizes with appropriately adjusted learning rates show improved generalization and stability, consistent with the theory that careful hyper-parameter scaling preserves performance across different batch sizes.
 
 \subsection*{Part 4: Fine-Tuning a Pretrained Model (5 points)}
 Fine-tuning leverages the knowledge of models trained on large datasets by adapting their weights to a new task. In this section, you will fine-tune a ResNet-18 model pre-trained on ImageNet using \texttt{torchvision.models.resnet18(pretrained=True)}. Modify the classification head to match the number of classes in your task, and replace the model definition in the original code. Keep the rest of the setup as default for comparison.
-
 
 \noindent\textbf{Deliverable:}
 \begin{itemize}
@@ -227,13 +211,13 @@ Fine-tuning leverages the knowledge of models trained on large datasets by adapt
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p1p4_pic/PretrainModel.png}
+    \includegraphics[width=0.5\textwidth]{report_pic/PretrainedModel.png}
     \captionof{figure}{Pretrained-Chart}
 \end{center}
+
+\textbf{Analysis: }
 \\
-Pre-training improves model initialization, accelerating convergence and enhancing performance, but the final effectiveness depends on hyperparameters like learning rate and batch size. 
-In this case, model with a higher learning rate and larger batch size demonstrated faster learning and slightly better generalization, although both models showed fluctuation in validation accuracy, suggesting sensitivity to data or potential overfitting.
-Fine-tuning the learning rate schedule and batch size or using data augmentation could further enhance model robustness.
+The pre-trained model shows a clear advantage over the baseline across multiple metrics. In pre-trained model, the validation accuracy reaches 0.6 early and stabilizes, while baseline model struggles around 0.3 with noticeable fluctuations. The train loss in P1 decreases sharply, reaching near-zero faster, whereas baseline model’s loss decreases more slowly. Moreover, the validation loss in  pre-trained model is significantly lower and more stable than baseline model, indicating better generalization. The final test accuracy for pre-trained model exceeds that of baseline model significantly, showing how pre-training enhances model performance and learning efficiency by improving parameter initialization, accelerating convergence, and improving generalization.
 
 
 \section*{Problem 2 - Model Testing}
@@ -360,7 +344,7 @@ Implement the learning rate range test using \href{https://github.com/davidtvs/p
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p1lr_pic/learningRate.png}
+    \includegraphics[width=0.5\textwidth]{lreport_pic/earningRate.png}
     \captionof{figure}{Learning Rate Check}
 \end{center}
 
@@ -442,7 +426,7 @@ Load the trained model using \texttt{get\_trained\_model()} function, and the te
 
 \textbf{Answer:} 
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p2br_pic/Brightness_accuracy.png}
+    \includegraphics[width=0.5\textwidth]{report_pic/Brightness_accuracy.png}
     \captionof{figure}{Brightness v.s. Accuracy Chart}
 \end{center}
 Along with the brightness factor increases from 0.2 to 1.0, the model's accuracy steadily improves
@@ -465,7 +449,7 @@ Similarly, load the trained model using \texttt{get\_trained\_model()} function,
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{p2ro_pic/Rotation_accuracy.png}
+    \includegraphics[width=0.5\textwidth]{report_pic/Rotation_accuracy.png}
     \captionof{figure}{Rotation v.s. Accuracy Chart}
 \end{center}
 The graph shows that model accuracy decreases as rotation angle of input images increases from 0 to 300 degrees.
