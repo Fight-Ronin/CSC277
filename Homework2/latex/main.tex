@@ -19,7 +19,7 @@
 \newcommand{\hm}[1]{\textcolor{blue}{HM: #1}}
 
 \title{Homework 2 \\ CSC 277 / 477 \\ End-to-end Deep Learning \\ Fall 2024}
-\author{John Doe - \texttt{jdoe@ur.rochester.edu}}
+\author{Henry Yin - \texttt{hyi1n2@u.rochester.edu}}
 \date{}					
 
 
@@ -28,7 +28,7 @@
 \maketitle
 
 \begin{center}
-    \textbf{Deadline:} See Blackboard    
+    \textbf{Deadline:} 10/18/2024
 \end{center}
 
 
@@ -83,6 +83,16 @@ Given the description, determine the ratio of trainable parameters to the total 
 Provide the formula/expression for this ratio.
 
 \textbf{Answer:} \\
+Total parameters in the original weight matrix $W_0$ is:
+\[ \text{Total Parameters} = d \times k = 1024 \times 1024 = 1,048,576 \]
+\\
+LoRA introduces low rank decomposition where the original weight matrix $W_0$ is approximated by to smaller matrices.
+One with size \( W_A \in \mathbb{R}^{d \times r} \) and one of size \( W_B \in \mathbb{R}^{r \times k} \).
+\\
+The number of trainable parameters in LoRA then:
+\[ \text{Trainable Parameters} = (d \times r) + (r \times k) = (1024 \times 8) + (8 \times 1024) = 8192 + 8192 = 16,384 \]
+\[ \frac{\text{Trainable Parameters}}{\text{Total Parameters}} = \frac{16.384}{1,048,576} \approx 0.015625 \]
+The ratio of trainable parameters to total parameters is 0.0156 (i.e. $1.56\%$)
 
 \subsubsection*{Part 1.2: LoRA Integration in Transformer Models (2 Points)}
 Read the following paragraphs in the \href{https://arxiv.org/abs/2106.09685}{LoRA} paper:
@@ -95,6 +105,7 @@ Read the following paragraphs in the \href{https://arxiv.org/abs/2106.09685}{LoR
 For a Transformer architecture model, where is LoRA typically injected? (Options: query/key/value/output projection matrices)
 
 \textbf{Answer:} \\
+\textit{Query and Value} projection matrices.
 
 \subsection*{Part 2:  Fine-Tuning for Sentiment Classification}
 \subsubsection*{Part 2.1: Fine-Tuning Without LoRA (6 Points)}
@@ -116,6 +127,102 @@ For a Transformer architecture model, where is LoRA typically injected? (Options
 \end{enumerate}
 
 \textbf{Answer:} \\
+\begin{center}
+    \includegraphics[width=\textwidth]{p1p2_pic/RoberTaFT.png}
+\end{center}
+\\
+NOTE: There are 124,647,939 Total Parameters In the Model.
+\\
+\textbf{Code Implementation: }
+\begin{verbatim}
+import time
+import torch
+import wandb
+from datasets import load_dataset
+from transformers import RobertaTokenizer, RobertaForSequenceClassification, Trainer, TrainingArguments
+from sklearn.metrics import accuracy_score, f1_score
+
+wandb.init(project="sentiment-classification", config={
+    "model": "roberta-base",
+    "dataset": "Tweet Eval Sentiment",
+    "epochs": 1,
+    "batch_size": 16,
+})
+
+dataset = load_dataset("tweet_eval", name="sentiment")
+tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
+
+def tokenize_function(examples):
+    return tokenizer(examples["text"], padding="max_length", truncation=True)
+
+tokenized_datasets = dataset.map(tokenize_function, batched=True)
+
+model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=3)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
+# Record total and trainable parameters
+total_params = sum(p.numel() for p in model.parameters())
+trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+wandb.config.update({
+    "total_params": total_params,
+    "trainable_params": trainable_params
+})
+
+training_args = TrainingArguments(
+    output_dir="./results",
+    num_train_epochs=1,
+    per_device_train_batch_size=16,
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    fp16=True, 
+    save_total_limit=1,
+    load_best_model_at_end=True,
+    report_to="wandb",
+)
+
+# Define compute_metrics function calculate accuracy and F1 score
+def compute_metrics(p):
+    preds = p.predictions.argmax(-1)
+    accuracy = accuracy_score(p.label_ids, preds)
+    f1 = f1_score(p.label_ids, preds, average="weighted")
+    return {"accuracy": accuracy, "f1": f1}
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=tokenized_datasets["train"],
+    eval_dataset=tokenized_datasets["validation"],
+    compute_metrics=compute_metrics,
+)
+
+start_time = time.time()
+
+trainer.train()
+
+training_time = time.time() - start_time
+wandb.log({"training_time_seconds": training_time})
+
+if torch.cuda.is_available():
+    allocated_memory = torch.cuda.memory_allocated() / (1024 ** 3)
+    reserved_memory = torch.cuda.memory_reserved() / (1024 ** 3)
+    max_allocated = torch.cuda.max_memory_allocated() / (1024 ** 3)
+    print(f"GPU allocated memory: {allocated_memory:.3f} GB")
+    print(f"GPU reserved memory: {reserved_memory:.3f} GB")
+    print(f"Max GPU allocated memory: {max_allocated:.3f} GB")
+
+
+metrics = trainer.evaluate(tokenized_datasets["test"])
+wandb.log({
+    "test_accuracy": metrics["eval_accuracy"],
+    "test_f1_score": metrics["eval_f1"],
+    "test_loss": metrics["eval_loss"],
+})
+
+wandb.finish()
+\end{verbatim}
+
+\newpage
 
 \subsubsection*{Part 2.2: Fine-Tuning With LoRA using PEFT (4 Points)}
 The \href{https://github.com/huggingface/peft}{PEFT} (Parameter-Efficient Fine-Tuning) repository provides efficient methods for adapting models, including LoRA, and integrates with Hugging Face. In this section, you’ll fine-tune RoBERTa with LoRA using PEFT.
