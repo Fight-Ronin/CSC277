@@ -122,16 +122,31 @@ For a Transformer architecture model, where is LoRA typically injected? (Options
 \end{enumerate}
 \textbf{Deliverable:}
 \begin{enumerate}
-    \item Recorded metrics as described in Step 4 in \LaTeX~table(s).
+    \item Recorded metrics as described in Step 4 in \LaTeX ~table(s).
     \item Your code implementation.
 \end{enumerate}
 
 \textbf{Answer:} \\
-\begin{center}
-    \includegraphics[width=\textwidth]{p1p2_pic/RoberTaFT.png}
-\end{center}
+\textbf{Metrics Table Without Using LoRA: }
 \\
-NOTE: There are 124,647,939 Total Parameters In the Model.
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|c|}
+    \hline
+    \textbf{Metric}                            & \textbf{Value}      \\ \hline
+    \textbf{Total Parameters}                  & 125535750    \\ \hline
+    \textbf{Trainable Parameters}              & 125535750    \\ \hline
+    \textbf{Training Time (seconds)}           & 870.40             \\ \hline
+    \textbf{GPU Allocated Memory (GB)}         & 1.420              \\ \hline
+    \textbf{GPU Reserved Memory (GB)}          & 9.086              \\ \hline
+    \textbf{Max GPU Allocated Memory (GB)}     & 8.819              \\ \hline
+    \textbf{Test Accuracy}                     & 0.70612            \\ \hline
+    \textbf{Test F1 Score}                     & 0.70453           \\ \hline
+    \textbf{Test Loss}                         & 0.65381           \\ \hline
+    \end{tabular}
+    \caption{Model Performance Metrics Without LoRA Fine-Tuning}
+    \end{table}
+    
 \\
 \textbf{Code Implementation: }
 \begin{verbatim}
@@ -139,7 +154,8 @@ import time
 import torch
 import wandb
 from datasets import load_dataset
-from transformers import RobertaTokenizer, RobertaForSequenceClassification, Trainer, TrainingArguments
+from transformers import RobertaTokenizer, 
+    RobertaForSequenceClassification, Trainer, TrainingArguments
 from sklearn.metrics import accuracy_score, f1_score
 
 wandb.init(project="sentiment-classification", config={
@@ -232,14 +248,53 @@ The \href{https://github.com/huggingface/peft}{PEFT} (Parameter-Efficient Fine-T
    \item Apply the same training recipe as in Part 2.1 and fine-tune RoBERTa with LoRA.
 \end{enumerate}
 
-
 \textbf{Deliverable:}
 \begin{enumerate}
-    \item Recorded Metrics as described in Part 2.1 Step~\ref{step4} in \LaTeX~table(s)
+    \item Recorded Metrics as described in Part 2.1 Step 4 in \LaTeX~table(s)
     \item Your code snippet of the implementation of LoRA into the model.
 \end{enumerate}
 
 \textbf{Answer:} \\
+
+\textbf{Metrics Table After Using LoRA: }
+\\
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|c|}
+    \hline
+    \textbf{Metric}                            & \textbf{Value}      \\ \hline
+    \textbf{Total Parameters}                  & 125535750   \\ \hline
+    \textbf{Trainable Parameters}              & 887811    \\ \hline
+    \textbf{Training Time (seconds)}           & 767.65             \\ \hline
+    \textbf{GPU Allocated Memory (GB)}         & 0.491              \\ \hline
+    \textbf{GPU Reserved Memory (GB)}          & 7.240              \\ \hline
+    \textbf{Max GPU Allocated Memory (GB)}     & 7.063              \\ \hline
+    \textbf{Test Accuracy}                     & 0.69945            \\ \hline
+    \textbf{Test F1 Score}                     & 0.69857            \\ \hline
+    \textbf{Test Loss}                         & 0.66546            \\ \hline
+    \end{tabular}
+    \caption{Model Performance Metrics for LoRA Fine-Tuning}
+\end{table}
+
+\textbf{Code Implementation: }
+\\
+Every things remains the same in the previous question with the following amendements of training RoberTa-base model with LoRA implementation.
+\begin{verbatim}
+# Import PEFT-related modules
+from peft import LoraConfig, get_peft_model, TaskType  
+
+# Set up PEFT with LoRA
+peft_config = LoraConfig(
+    task_type=TaskType.SEQ_CLS,
+    inference_mode=False,        # training, not inferring
+    r=8,
+    lora_alpha=32,               # Default scaling factor for LoRA
+    lora_dropout=0.1
+)
+
+# Convert the RoberTa-base model to a LoRA model using PEFT
+model = get_peft_model(model, peft_config)
+\end{verbatim}
 
 \subsubsection*{Part 2.3: Comparison and Analysis (3 Points)}
 
@@ -252,6 +307,12 @@ Now that you've fine-tuned the RoBERTa model with and without LoRA, compare thei
 \textbf{Deliverable}: Provide concise answers to these three aspects, each with one or two sentences, to summarize your findings and insights.
 
 \textbf{Answer:} \\
+
+\begin{enumerate}
+    \item \textbf{Efficiency}: LoRA reduces the number of trainable parameters but increases memory usage and training time.
+    \item \textbf{Performance}: The model without LoRA achieved better performance in terms of accuracy, F1 score, and loss compared to the LoRA fine-tuned model.
+    \item \textbf{Other Aspects}: LoRA is beneficial in scenarios requiring memory-efficient fine-tuning, though it did not perform as well for this particular sentiment classification task.
+\end{enumerate}
 
 
 \subsubsection*{Part 3: Influence of Model Size (5 Points)}
@@ -267,8 +328,58 @@ Fine-tune the model both with and without LoRA. Simply replace the model name in
 
 \textbf{Answer:} \\
 
+\begin{table}[h!]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \scriptsize % Adjust the font size to make it smaller
+        \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Metric}                            & \textbf{Value}      \\ \hline
+        \textbf{Total Parameters}                  & 14351187    \\ \hline
+        \textbf{Trainable Parameters}              & 14351187    \\ \hline
+        \textbf{Training Time (seconds)}           & 49.36              \\ \hline
+        \textbf{GPU Allocated Memory (GB)}         & 0.178              \\ \hline
+        \textbf{GPU Reserved Memory (GB)}          & 0.449              \\ \hline
+        \textbf{Max GPU Allocated Memory (GB)}     & 0.345              \\ \hline
+        \textbf{Test Accuracy}                     & 0.6734             \\ \hline
+        \textbf{Test F1 Score}                     & 0.67359            \\ \hline
+        \textbf{Test Loss}                         & 0.71558            \\ \hline
+        \end{tabular}
+        \caption{TinyBERT without LoRA Fine-Tuning}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \scriptsize % Adjust the font size to make it smaller
+        \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Metric}                            & \textbf{Value}      \\ \hline
+        \textbf{Total Parameters}                  & 14351187    \\ \hline
+        \textbf{Trainable Parameters}              & 40875    \\ \hline
+        \textbf{Training Time (seconds)}           & 47.64              \\ \hline
+        \textbf{GPU Allocated Memory (GB)}         & 0.070              \\ \hline
+        \textbf{GPU Reserved Memory (GB)}          & 0.246              \\ \hline
+        \textbf{Max GPU Allocated Memory (GB)}     & 0.208              \\ \hline
+        \textbf{Test Accuracy}                     & 0.52979            \\ \hline
+        \textbf{Test F1 Score}                     & 0.42741            \\ \hline
+        \textbf{Test Loss}                         & 0.94995            \\ \hline
+        \end{tabular}
+        \caption{TinyBERT with LoRA Fine-Tuning}
+    \end{minipage}
+\end{table}
 
+The TinyBERT fine-tuned model significantly outperforms the naive predictor that always guesses the majority class. While the naive predictor achieves an accuracy of 48.33\% and an F1 score of 31.50%, TinyBERT reaches 67.34\% accuracy and 67.36\% F1 score. This demonstrates that TinyBERT effectively learns patterns in the data, providing much better overall performance, especially in balancing precision and recall across classes, compared to the simplistic majority-class strategy.
+\\
+\begin{itemize}
+    \item **Efficiency**: Similar to the larger model, **LoRA** for TinyBERT reduces the number of trainable parameters, but the overall memory usage and training time increase. Since TinyBERT is much smaller, the effect of LoRA on memory efficiency and training time is less pronounced compared to a larger model like RoBERTa.
+    \item **Performance**: As with the RoBERTa model, the **TinyBERT model without LoRA** achieves better performance in terms of accuracy and F1 score compared to the LoRA fine-tuned version. This indicates that fine-tuning all parameters of a smaller model like TinyBERT may still be more effective than using parameter-efficient techniques like LoRA.
+    \item **Other Aspects**: While **LoRA** is generally useful for reducing the computational cost of fine-tuning large models, its benefits are less evident with smaller models like TinyBERT, where the overhead introduced by LoRA can outweigh the gains from reducing the number of trainable parameters. For this sentiment classification task, fine-tuning the entire TinyBERT model directly provides better results.
+\end{itemize}
+\\
+In summary, the same general observations from Part 2 apply to TinyBERT, though the impact of LoRA on efficiency and performance is less pronounced due to the model's smaller size. The overall performance suggests that fine-tuning all parameters in smaller models might be more effective than applying LoRA.
 
+\newpage
 
 \section*{Problem 2 - Using Pretrained-Model Embedding (20 Points)}
 Pretrained models help transfer knowledge to new tasks by generating meaningful data representations, which can be used for downstream tasks like classification.
