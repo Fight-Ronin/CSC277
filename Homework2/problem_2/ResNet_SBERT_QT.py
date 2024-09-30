@@ -14,7 +14,7 @@ import wandb
 wandb.init(project="vqa-resnet-sbert", config={
     "epochs": 20,
     "batch_size": 32,
-    "learning_rate": 1e-4, # Avoid Too Small Init.
+    "learning_rate": 1e-4,  # Avoid Too Small Init.
 })
 
 # Dataset class for loading the VQA data
@@ -63,23 +63,49 @@ train_df = pd.read_csv('data/new_data_train.csv')
 val_df = pd.read_csv('data/new_data_val.csv')
 test_df = pd.read_csv('data/new_data_test.csv')
 
-# Create label map from unique answers
-all_answers = pd.concat([train_df['answer'], val_df['answer'], test_df['answer']])
-unique_answers = all_answers.unique()
-label_map = {answer: idx for idx, answer in enumerate(unique_answers)}
+# Define function to classify question types based on answer patterns
+def classify_by_answer(answer):
+    # Check if the answer is a count (i.e., a numeric string)
+    if str(answer).isdigit():
+        return 'Count-Based'
+    # Check if the answer is a color (we'll use a predefined set of common colors)
+    colors = {'red', 'blue', 'green', 'yellow', 'white', 'black', 'brown', 'gray', 'pink', 'orange'}
+    if str(answer).lower() in colors:
+        return 'Attribute-Based'
+    # Otherwise, it's an object identification or relational question
+    return 'Object Identification/Relational'
 
-# Log label map size and print label map
-wandb.config.update({"label_map_size": len(label_map)})
-print(f"Label Map: {label_map}")
+# Apply the classification function to categorize questions in each dataset
+train_df['question_type'] = train_df['answer'].apply(classify_by_answer)
+val_df['question_type'] = val_df['answer'].apply(classify_by_answer)
+test_df['question_type'] = test_df['answer'].apply(classify_by_answer)
 
-# Create Datasets and DataLoaders
-train_dataset = CustomVQADataset(dataframe=train_df, label_map=label_map, transform=image_transform)
-val_dataset = CustomVQADataset(dataframe=val_df, label_map=label_map, transform=image_transform)
-test_dataset = CustomVQADataset(dataframe=test_df, label_map=label_map, transform=image_transform)
+'''
+train_counts = train_df['question_type'].value_counts()
+val_counts = val_df['question_type'].value_counts()
+test_counts = test_df['question_type'].value_counts()
 
-train_loader = DataLoader(train_dataset, batch_size=wandb.config.batch_size, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=wandb.config.batch_size, shuffle=False)
-test_loader = DataLoader(test_dataset, batch_size=wandb.config.batch_size, shuffle=False)
+# Combine into a summary table
+summary_df = pd.DataFrame({
+    'Training Set': train_counts,
+    'Validation Set': val_counts,
+    'Test Set': test_counts
+}).fillna(0).astype(int)
+
+# Display the summary table
+print("\nSummary of Question Types Across Datasets:\n", summary_df)
+'''
+
+# Create label maps for each question type
+label_maps = {
+    q_type: {answer: idx for idx, answer in enumerate(train_df[train_df['question_type'] == q_type]['answer'].unique())}
+    for q_type in train_df['question_type'].unique()
+}
+
+# Log label map size and print label map for each type
+for q_type, label_map in label_maps.items():
+    wandb.config.update({f"{q_type}_label_map_size": len(label_map)})
+    print(f"Label Map for {q_type}: {label_map}")
 
 # Visual Encoder using ResNet-50
 class VisualEncoder(nn.Module):
@@ -92,16 +118,20 @@ class VisualEncoder(nn.Module):
     def forward(self, x):
         with torch.no_grad():
             img_embedding = self.resnet(x).squeeze()
+
+        # Check if img_embedding is 1D after squeeze, convert it to 2D by adding a batch dimension
+        if len(img_embedding.shape) == 1:
+            img_embedding = img_embedding.unsqueeze(0)
+
         img_embedding = nn.ReLU()(self.fc_img(img_embedding))  # Apply Linear + ReLU
         return img_embedding
 
-# Define mean pooling function for sentence embeddings
 def mean_pooling(model_output, attention_mask):
     token_embeddings = model_output[0]  # First element is token embeddings
     input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
     return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
 
-# Textual Encoder using HuggingFace Transformers (Updated)
+# Textual Encoder using HuggingFace Transformers
 class TextualEncoder(nn.Module):
     def __init__(self):
         super(TextualEncoder, self).__init__()
@@ -110,21 +140,20 @@ class TextualEncoder(nn.Module):
         self.fc_text = nn.Linear(384, 128)  # Linear layer to reduce dimensions to 128
 
     def forward(self, sentences):
-        # Tokenize sentences
         encoded_input = self.tokenizer(sentences, padding=True, truncation=True, return_tensors='pt')
-
-        # **Move inputs to the same device as the model**
         device = next(self.model.parameters()).device
         encoded_input = {k: v.to(device) for k, v in encoded_input.items()}
-
-        # Compute embeddings
         with torch.no_grad():
             model_output = self.model(**encoded_input)
 
-        # Apply mean pooling
         text_embedding = mean_pooling(model_output, encoded_input['attention_mask'])
         text_embedding = F.normalize(text_embedding, p=2, dim=1)  # Normalize embeddings
         text_embedding = nn.ReLU()(self.fc_text(text_embedding))  # Apply Linear + ReLU
+
+        # Check if text_embedding is 1D after reduction, convert it to 2D by adding a batch dimension
+        if len(text_embedding.shape) == 1:
+            text_embedding = text_embedding.unsqueeze(0)
+
         return text_embedding
 
 # Combined Model for Multi-Modal Fusion
@@ -140,12 +169,18 @@ class CombinedModel(nn.Module):
         self.classifier = nn.Linear(hidden_dim, num_classes)
 
     def forward(self, img_emb, text_emb):
+        # Ensure that both embeddings have the same number of dimensions
+        if len(img_emb.shape) == 1:
+            img_emb = img_emb.unsqueeze(0)
+        if len(text_emb.shape) == 1:
+            text_emb = text_emb.unsqueeze(0)
 
         # Concatenate image and text embeddings
         concatenated_emb = torch.cat((img_emb, text_emb), dim=-1)  # 128 + 128 = 256
         norm_emb = self.bn(concatenated_emb)  # Normalize the combined embeddings
         hidden_emb = self.fc1(norm_emb)
         output = self.classifier(hidden_emb)
+
         wandb.log({
             "Image Embedding Dimension": str(img_emb.shape),
             "Text Embedding Dimension": str(text_emb.shape),
@@ -156,11 +191,12 @@ class CombinedModel(nn.Module):
         print(f"Concatenated Embedding Dimension: {concatenated_emb.shape}")
         return output
 
-def train_model():
+# Define `train_model` to handle individual question types
+def train_model(train_loader, val_loader, question_type, num_classes):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     visual_encoder = VisualEncoder().to(device)
     textual_encoder = TextualEncoder().to(device)
-    combined_model = CombinedModel().to(device)
+    combined_model = CombinedModel(num_classes=num_classes).to(device)
 
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.AdamW(combined_model.parameters(), lr=wandb.config.learning_rate)
@@ -171,7 +207,7 @@ def train_model():
         correct = 0
         total = 0
 
-        for step, (questions, images, labels) in enumerate(train_loader):
+        for questions, images, labels in train_loader:
             images = images.to(device)
             labels = labels.to(device)
             text_embeddings = textual_encoder(questions).to(device)
@@ -184,7 +220,7 @@ def train_model():
             optimizer.step()
 
             # Log step-wise loss to W&B
-            wandb.log({"step_loss": loss.item()})
+            wandb.log({f"{question_type}_step_loss": loss.item()})
 
             running_loss += loss.item()
             _, predicted = outputs.max(1)
@@ -194,15 +230,16 @@ def train_model():
         train_acc = correct / total
         train_loss = running_loss / len(train_loader)
 
-        # Log epoch-wise training metrics
-        wandb.log({"train_loss": train_loss, "train_accuracy": train_acc})
+        # Log epoch-wise training metrics for this question type
+        wandb.log({f"{question_type}_train_loss": train_loss, f"{question_type}_train_accuracy": train_acc})
 
-    # Final evaluation on test set with updated evaluate function
-    test_loss, test_acc = evaluate(combined_model, test_loader, visual_encoder, textual_encoder, device)
-    wandb.log({"test_loss": test_loss, "test_accuracy": test_acc})
-    print(f"Final Test Loss: {test_loss:.4f}, Test Accuracy: {test_acc:.4f}")
+    # Final evaluation on validation set for this question type
+    val_loss, val_acc = evaluate(combined_model, val_loader, visual_encoder, textual_encoder, device, question_type)
+    wandb.log({f"{question_type}_val_loss": val_loss, f"{question_type}_val_accuracy": val_acc})
+    print(f"Final Validation Loss ({question_type}): {val_loss:.4f}, Validation Accuracy: {val_acc:.4f}")
 
-def evaluate(model, data_loader, visual_encoder, textual_encoder, device):
+# Update `evaluate` function to use question type for better tracking in W&B
+def evaluate(model, data_loader, visual_encoder, textual_encoder, device, question_type):
     model.eval()
     total_loss, correct, total = 0, 0, 0
     criterion = nn.CrossEntropyLoss()
@@ -225,5 +262,30 @@ def evaluate(model, data_loader, visual_encoder, textual_encoder, device):
     val_acc = correct / total
     return val_loss, val_acc
 
-train_model()
+# =============================
+#  Main Loop for Each Question Type
+# =============================
+
+# Loop through each question type and create separate train and validation loaders
+for question_type, label_map in label_maps.items():
+    print(f"Training and evaluating for question type: {question_type}")
+
+    # Filter datasets based on the current question type
+    train_subset = train_df[train_df['question_type'] == question_type]
+    val_subset = val_df[val_df['question_type'] == question_type]
+
+    # Create custom datasets for each subset
+    train_dataset = CustomVQADataset(dataframe=train_subset, label_map=label_map, transform=image_transform)
+    val_dataset = CustomVQADataset(dataframe=val_subset, label_map=label_map, transform=image_transform)
+
+    # Create data loaders for this question type
+    train_loader = DataLoader(train_dataset, batch_size=wandb.config.batch_size, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=wandb.config.batch_size, shuffle=False)
+
+    # Get number of classes for this question type
+    num_classes = len(label_map)
+
+    # Call the train_model function for this question type
+    train_model(train_loader, val_loader, question_type, num_classes)
+
 wandb.finish()
