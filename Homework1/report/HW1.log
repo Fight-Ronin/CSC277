@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.19)  20 SEP 2024 17:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.19)  29 SEP 2024 22:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -498,7 +498,8 @@ Package: ulem 2019/11/18
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count323
 \l__pdf_internal_box=\box69
-) (./HW1.aux)
+)
+No file HW1.aux.
 \openout1 = `HW1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
@@ -519,7 +520,6 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -605,183 +605,200 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 
 {c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:72: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.72 \textit
+            {NOTE: For the following graph, "Step" in x-axis == training epoch}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+
 [2
 
 {c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 101--102
 
  []
 
 <report_pic/Experiment_Config.png, id=46, 1780.6525pt x 661.47125pt>
 File: report_pic/Experiment_Config.png Graphic file (type png)
 <use report_pic/Experiment_Config.png>
-Package pdftex.def Info: report_pic/Experiment_Config.png  used on input line 101.
-(pdftex.def)             Requested size: 215.0023pt x 79.86769pt.
+Package pdftex.def Info: report_pic/Experiment_Config.png  used on input line 103.
+(pdftex.def)             Requested size: 387.00153pt x 143.75781pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 102.
+(caption)                particular \caption on input line 104.
 See the caption package documentation for explanation.
 
 <report_pic/Logged_Charts.png, id=47, 1785.67125pt x 784.9325pt>
 File: report_pic/Logged_Charts.png Graphic file (type png)
 <use report_pic/Logged_Charts.png>
-Package pdftex.def Info: report_pic/Logged_Charts.png  used on input line 106.
-(pdftex.def)             Requested size: 215.0023pt x 94.49924pt.
+Package pdftex.def Info: report_pic/Logged_Charts.png  used on input line 108.
+(pdftex.def)             Requested size: 387.00153pt x 170.1106pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 107.
+(caption)                particular \caption on input line 109.
 See the caption package documentation for explanation.
 
 
-
-[3 <./report_pic/Experiment_Config.png> <./report_pic/Logged_Charts.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 125--126
-
- []
-
-<report_pic/SweepChart1.png, id=57, 1416.29124pt x 728.7225pt>
-File: report_pic/SweepChart1.png Graphic file (type png)
-<use report_pic/SweepChart1.png>
-Package pdftex.def Info: report_pic/SweepChart1.png  used on input line 127.
-(pdftex.def)             Requested size: 215.0023pt x 110.61574pt.
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 128.
-See the caption package documentation for explanation.
-
-
-
-[4 <./report_pic/SweepChart1.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 171--172
-
- []
-
-<report_pic/SchedulerChart.png, id=65, 1771.61874pt x 780.9175pt>
-File: report_pic/SchedulerChart.png Graphic file (type png)
-<use report_pic/SchedulerChart.png>
-Package pdftex.def Info: report_pic/SchedulerChart.png  used on input line 173.
-(pdftex.def)             Requested size: 215.0023pt x 94.76656pt.
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 174.
-See the caption package documentation for explanation.
-
-
-
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 191--192
-
- []
-
-
-
-[6 <./report_pic/SchedulerChart.png>]
-<report_pic/LearningRateBatch.png, id=79, 1423.3175pt x 808.01875pt>
-File: report_pic/LearningRateBatch.png Graphic file (type png)
-<use report_pic/LearningRateBatch.png>
-Package pdftex.def Info: report_pic/LearningRateBatch.png  used on input line 193.
-(pdftex.def)             Requested size: 215.0023pt x 122.04831pt.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 194.
-See the caption package documentation for explanation.
-
-
-
-[7 <./report_pic/LearningRateBatch.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 212--213
-
- []
-
-<report_pic/PretrainedModel.png, id=87, 1493.58pt x 738.76pt>
-File: report_pic/PretrainedModel.png Graphic file (type png)
-<use report_pic/PretrainedModel.png>
-Package pdftex.def Info: report_pic/PretrainedModel.png  used on input line 214.
-(pdftex.def)             Requested size: 215.0023pt x 106.34528pt.
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 215.
-See the caption package documentation for explanation.
-
-
-
-[8 <./report_pic/PretrainedModel.png (PNG copy)>]
-
-[9]
-Overfull \hbox (35.63908pt too wide) in paragraph at lines 309--309
-[]        \OT1/cmtt/m/n/10.95 f"Validation set: {len(val_dataset) - len(val_dataset_cleaned)} images, "[] 
- []
-
-
-Overfull \hbox (12.64433pt too wide) in paragraph at lines 309--309
-[]        \OT1/cmtt/m/n/10.95 f"Test set: {len(test_dataset) - len(test_dataset_cleaned)} images.")[] 
- []
-
-
-Overfull \hbox (1.14696pt too wide) in paragraph at lines 309--309
-[]    \OT1/cmtt/m/n/10.95 return train_dataset_cleaned, val_dataset_cleaned, test_dataset_cleaned[] 
- []
-
-
-
-[10]
-Overfull \hbox (58.63383pt too wide) in paragraph at lines 317--317
-[]    \OT1/cmtt/m/n/10.95 AssertionError: Output shape mismatch: Expected (4, 10), got torch.Size([4, 128])[] 
- []
-
-
-Overfull \hbox (5.98537pt too wide) in paragraph at lines 318--325
-\OT1/cmr/m/n/10.95 Removing the fc2 layer or chang-ing it to pro-duce num[]classes out-puts di-rectly from fc1. 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 345--346
-
- []
-
-
-LaTeX Warning: File `lreport_pic/earningRate.png' not found on input line 347.
-
-
-c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:347: Package pdftex.def Error: File `lreport_pic/earningRate.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.347 ...5\textwidth]{lreport_pic/earningRate.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 348.
-See the caption package documentation for explanation.
-
-
-
-[11]
-Overfull \hbox (13.47057pt too wide) in paragraph at lines 351--356
-\OT1/cmr/bx/n/10.95 All the Code im-ple-men-ta-tions for above ques-tions are avali-able in \OT1/cmr/bx/it/10.95 model[]testing.py
- []
-
-
-
-[12]
-Overfull \hbox (10.36214pt too wide) in paragraph at lines 368--370
-\OT1/cmr/bx/n/10.95 Hint\OT1/cmr/m/n/10.95 : Con-sider how Batch-Norm op-er-a-tion would in-flu-ence the pres-ence of dy-ing ReLU. 
- []
-
-
-c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:380: LaTeX Error: There's no line here to end.
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:112: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.380 \textbf
+l.112 \textit
+             {NOTE: val\_loss - The total loss on validation set / val\_loss...
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+
+[3 <./report_pic/Experiment_Config.png> <./report_pic/Logged_Charts.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 131--132
+
+ []
+
+<report_pic/SweepChart1.png, id=56, 1416.29124pt x 728.7225pt>
+File: report_pic/SweepChart1.png Graphic file (type png)
+<use report_pic/SweepChart1.png>
+Package pdftex.def Info: report_pic/SweepChart1.png  used on input line 133.
+(pdftex.def)             Requested size: 387.00153pt x 199.115pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 134.
+See the caption package documentation for explanation.
+
+
+
+[4]
+
+[5 <./report_pic/SweepChart1.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 177--178
+
+ []
+
+<report_pic/SchedulerChart.png, id=69, 1771.61874pt x 780.9175pt>
+File: report_pic/SchedulerChart.png Graphic file (type png)
+<use report_pic/SchedulerChart.png>
+Package pdftex.def Info: report_pic/SchedulerChart.png  used on input line 179.
+(pdftex.def)             Requested size: 387.00153pt x 170.58696pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 180.
+See the caption package documentation for explanation.
+
+
+
+[6 <./report_pic/SchedulerChart.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 197--198
+
+ []
+
+<report_pic/LearningRateBatch.png, id=76, 1423.3175pt x 808.01875pt>
+File: report_pic/LearningRateBatch.png Graphic file (type png)
+<use report_pic/LearningRateBatch.png>
+Package pdftex.def Info: report_pic/LearningRateBatch.png  used on input line 199.
+(pdftex.def)             Requested size: 387.00153pt x 219.69682pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 200.
+See the caption package documentation for explanation.
+
+
+
+[7]
+
+[8 <./report_pic/LearningRateBatch.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 218--219
+
+ []
+
+<report_pic/PretrainedModel.png, id=91, 1493.58pt x 738.76pt>
+File: report_pic/PretrainedModel.png Graphic file (type png)
+<use report_pic/PretrainedModel.png>
+Package pdftex.def Info: report_pic/PretrainedModel.png  used on input line 220.
+(pdftex.def)             Requested size: 387.00153pt x 191.41925pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 221.
+See the caption package documentation for explanation.
+
+
+
+[9 <./report_pic/PretrainedModel.png (PNG copy)>]
+
+[10]
+
+[11]
+Overfull \hbox (35.63908pt too wide) in paragraph at lines 316--316
+[]        \OT1/cmtt/m/n/10.95 f"Validation set: {len(val_dataset) - len(val_dataset_cleaned)} images, "[] 
+ []
+
+
+Overfull \hbox (12.64433pt too wide) in paragraph at lines 316--316
+[]        \OT1/cmtt/m/n/10.95 f"Test set: {len(test_dataset) - len(test_dataset_cleaned)} images.")[] 
+ []
+
+
+Overfull \hbox (1.14696pt too wide) in paragraph at lines 316--316
+[]    \OT1/cmtt/m/n/10.95 return train_dataset_cleaned, val_dataset_cleaned, test_dataset_cleaned[] 
+ []
+
+
+Overfull \hbox (58.63383pt too wide) in paragraph at lines 324--324
+[]    \OT1/cmtt/m/n/10.95 AssertionError: Output shape mismatch: Expected (4, 10), got torch.Size([4, 128])[] 
+ []
+
+
+Overfull \hbox (5.98537pt too wide) in paragraph at lines 325--332
+\OT1/cmr/m/n/10.95 Removing the fc2 layer or chang-ing it to pro-duce num[]classes out-puts di-rectly from fc1. 
+ []
+
+
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
+
+ []
+
+<report_pic/learningRate.png, id=115, 462.528pt x 346.896pt>
+File: report_pic/learningRate.png Graphic file (type png)
+<use report_pic/learningRate.png>
+Package pdftex.def Info: report_pic/learningRate.png  used on input line 354.
+(pdftex.def)             Requested size: 387.00153pt x 290.26318pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 355.
+See the caption package documentation for explanation.
+
+
+Overfull \hbox (13.47057pt too wide) in paragraph at lines 358--363
+\OT1/cmr/bx/n/10.95 All the Code im-ple-men-ta-tions for above ques-tions are avali-able in \OT1/cmr/bx/it/10.95 model[]testing.py
+ []
+
+
+
+[13 <./report_pic/learningRate.png>]
+Overfull \hbox (10.36214pt too wide) in paragraph at lines 375--377
+\OT1/cmr/bx/n/10.95 Hint\OT1/cmr/m/n/10.95 : Con-sider how Batch-Norm op-er-a-tion would in-flu-ence the pres-ence of dy-ing ReLU. 
+ []
+
+
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:387: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.387 \textbf
              {Code Implementation: }
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -789,50 +806,54 @@ or  <return>  to continue without it.
 
 
 
-[13]
-<report_pic/Brightness_accuracy.png, id=131, 462.528pt x 346.896pt>
+[14]
+<report_pic/Brightness_accuracy.png, id=137, 462.528pt x 346.896pt>
 File: report_pic/Brightness_accuracy.png Graphic file (type png)
 <use report_pic/Brightness_accuracy.png>
-Package pdftex.def Info: report_pic/Brightness_accuracy.png  used on input line 429.
-(pdftex.def)             Requested size: 215.0023pt x 161.25203pt.
+Package pdftex.def Info: report_pic/Brightness_accuracy.png  used on input line 436.
+(pdftex.def)             Requested size: 387.00153pt x 290.26318pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 430.
+(caption)                particular \caption on input line 437.
 See the caption package documentation for explanation.
 
 
 
-[14 <./report_pic/Brightness_accuracy.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 450--451
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 457--458
 
  []
 
-<report_pic/Rotation_accuracy.png, id=142, 462.528pt x 346.896pt>
+
+
+[16 <./report_pic/Brightness_accuracy.png>]
+<report_pic/Rotation_accuracy.png, id=156, 462.528pt x 346.896pt>
 File: report_pic/Rotation_accuracy.png Graphic file (type png)
 <use report_pic/Rotation_accuracy.png>
-Package pdftex.def Info: report_pic/Rotation_accuracy.png  used on input line 452.
-(pdftex.def)             Requested size: 215.0023pt x 161.25203pt.
+Package pdftex.def Info: report_pic/Rotation_accuracy.png  used on input line 459.
+(pdftex.def)             Requested size: 387.00153pt x 290.26318pt.
+
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 453.
+(caption)                particular \caption on input line 460.
 See the caption package documentation for explanation.
 
 
 
-[15 <./report_pic/Rotation_accuracy.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 478--479
+[17 <./report_pic/Rotation_accuracy.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 485--486
 
  []
 
 
-c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:490: LaTeX Error: There's no line here to end.
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:497: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.490 T
+l.497 T
        he differences in both mean and standard deviation suggest that there...
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -840,7 +861,7 @@ or  <return>  to continue without it.
 
 
 
-[16] (./HW1.aux)
+[18] (./HW1.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-30>
@@ -856,18 +877,18 @@ Package rerunfilecheck Info: Checksums for `HW1.out':
 (rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22875 strings out of 473579
- 421889 string characters out of 5732263
- 796708 words of memory out of 5000000
- 45355 multiletter control sequences out of 15000+600000
+ 22851 strings out of 473579
+ 420990 string characters out of 5732263
+ 796717 words of memory out of 5000000
+ 45331 multiletter control sequences out of 15000+600000
  567270 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,6n,93p,1183b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on HW1.pdf (16 pages, 1405952 bytes).
+<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on HW1.pdf (18 pages, 1422034 bytes).
 PDF statistics:
- 241 PDF objects out of 1000 (max. 8388607)
- 181 compressed objects within 2 object streams
- 61 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 246 PDF objects out of 1000 (max. 8388607)
+ 184 compressed objects within 2 object streams
+ 63 named destinations out of 1000 (max. 500000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,9 +1,9 @@
 # Fdb version 4
-["pdflatex"] 1726869232.2393 "c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex" "HW1.pdf" "HW1" 1726869233.23853 2
-  "HW1.aux" 1726869233 1476 afb87648eb3c83701ad8c12552c703ec "pdflatex"
-  "HW1.out" 1726869232 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "HW1.tex" 1726869231 32463 4993754e807d639d0ba2336318106de0 ""
-  "c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex" 1726869231 32463 4993754e807d639d0ba2336318106de0 ""
+["pdflatex"] 1727664118.87296 "c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex" "HW1.pdf" "HW1" 1727664119.90493 2
+  "HW1.aux" 1727664119 1445 4990d18aabbb700f0bc344f620ca993d "pdflatex"
+  "HW1.out" 1727664119 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "HW1.tex" 1727664116 32603 8bfe31e65c99450543010bf489441059 ""
+  "c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex" 1727664116 32603 8bfe31e65c99450543010bf489441059 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1726716617 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1726718816 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1726717947 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -37,7 +37,6 @@
   "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1726714687 32080 340ef9bf63678554ee606688e7b5339d ""
   "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb" 1726714687 36554 b67dc2cfa451409e100b3fcf5f506509 ""
   "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1726714687 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
-  "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1726714687 35469 dcf3a5f2fc1862f5952e3ee5eb1d98c4 ""
   "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1726714687 35752 024fb6c41858982481f6968b5fc26508 ""
   "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1726714687 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1726714687 32362 bc3f3eec7ab7d65fe700963d4017d32c ""
@@ -178,7 +177,6 @@
   "c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1726727413 5543950 2aa73a438b7054b2327b796fbe5f4275 ""
   "c:/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1726727685 3326051 17a08e5d0b4cf40e68af463dc2c96f40 ""
   "c:/texlive/2024/texmf.cnf" 1726727388 713 e69b156964470283e0530f5060668171 ""
-  "lreport_pic/earningRate.png" 0 -1 0 ""
   "report_pic/Brightness_accuracy.png" 1726869100 30197 168579ef4e12669ec6fb1de2e5c6149f ""
   "report_pic/Experiment_Config.png" 1726869099 201849 ba849ab999e3e03fff35c1d706fdecd9 ""
   "report_pic/LearningRateBatch.png" 1726869097 329114 79c83937db083b2b43aaf03350d91a8f ""
@@ -187,6 +185,7 @@
   "report_pic/Rotation_accuracy.png" 1726869094 31843 581e996536bedbe37632e77e7b7d10e1 ""
   "report_pic/SchedulerChart.png" 1726869091 152481 cfa72ee8400daab84b66fa6f9009fcb9 ""
   "report_pic/SweepChart1.png" 1726869092 189299 7c832a2e3491001e669c4462ff66ef25 ""
+  "report_pic/learningRate.png" 1726869098 27767 e5b0dab73b2e4f9b6ff1476bc06c9531 ""
   (generated)
   "HW1.aux"
   "HW1.log"

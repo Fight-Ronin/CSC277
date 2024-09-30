@@ -227,7 +227,7 @@ def train_model(
     # code here
 
     wandb.init(
-        project="oxford_pet_classification_pre-trained",
+        project="oxford_pet_classification_scheduler",
         name=f"lr_{learning_rate}_bs_{batch_size}_epochs_{epochs}",
         config={
             "learning_rate": learning_rate,
@@ -247,8 +247,10 @@ def train_model(
     # optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, betas=(beta1, beta2), eps=epsilon)
     # optimizer = optim.AdamW(model.parameters(), lr=learning_rate, betas=(beta1, beta2), eps=epsilon)
+    # scheduler = get_scheduler(use_scheduler, optimizer, max_lr=learning_rate,
+    #                          total_steps=total_training_steps, pct_start=0.1, final_div_factor=10)
     scheduler = get_scheduler(use_scheduler, optimizer, max_lr=learning_rate,
-                              total_steps=total_training_steps, pct_start=0.1, final_div_factor=10)
+                              total_steps=total_training_steps, pct_start=0.3, final_div_factor=25)
 
     criterion = nn.CrossEntropyLoss()
 
@@ -402,7 +404,7 @@ def get_args():
     return parser.parse_args()
 
 if __name__ == '__main__':
-    '''
+    
     rid = random.randint(0, 1000000)
     set_seed(42)
     args = get_args()
@@ -418,7 +420,7 @@ if __name__ == '__main__':
         save_dir=args.save_dir,
         use_scheduler=True,
     )
-    '''
+    
     '''
     # Create a sweep ID and project name
     rid = random.randint(0, 1000000)
@@ -452,6 +454,7 @@ if __name__ == '__main__':
                 scale_lr=scale_lr
             )
     '''
+    '''
     # Using Pretrained Model for fine-tuning tasks.
     rid = random.randint(0, 1000000)
     original_batch_size = 32 
@@ -478,4 +481,4 @@ if __name__ == '__main__':
                 original_batch_size=original_batch_size,
                 scale_lr=scale_lr
             )
-    
+    '''

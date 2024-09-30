@@ -223,9 +223,6 @@ INPUT c:/texlive/2024/texmf-dist/tex/generic/ulem/ulem.sty
 INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/latex-fonts/lasy6.tfm
 INPUT c:/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT c:/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-INPUT ./HW1.aux
-INPUT ./HW1.aux
-INPUT HW1.aux
 OUTPUT HW1.aux
 INPUT c:/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT c:/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -312,6 +309,11 @@ INPUT ./report_pic/PretrainedModel.png
 INPUT ./report_pic/PretrainedModel.png
 INPUT ./report_pic/PretrainedModel.png
 INPUT ./report_pic/PretrainedModel.png
+INPUT ./report_pic/learningRate.png
+INPUT ./report_pic/learningRate.png
+INPUT ./report_pic/learningRate.png
+INPUT ./report_pic/learningRate.png
+INPUT ./report_pic/learningRate.png
 INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmbxti10.tfm
 INPUT ./report_pic/Brightness_accuracy.png
 INPUT ./report_pic/Brightness_accuracy.png
@@ -330,7 +332,6 @@ INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
-INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb
