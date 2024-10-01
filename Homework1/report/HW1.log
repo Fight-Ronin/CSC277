@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.19)  29 SEP 2024 22:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.19)  30 SEP 2024 23:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -792,13 +792,13 @@ Overfull \hbox (10.36214pt too wide) in paragraph at lines 375--377
  []
 
 
-c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:387: LaTeX Error: There's no line here to end.
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:389: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.387 \textbf
+l.389 \textbf
              {Code Implementation: }
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -810,18 +810,18 @@ or  <return>  to continue without it.
 <report_pic/Brightness_accuracy.png, id=137, 462.528pt x 346.896pt>
 File: report_pic/Brightness_accuracy.png Graphic file (type png)
 <use report_pic/Brightness_accuracy.png>
-Package pdftex.def Info: report_pic/Brightness_accuracy.png  used on input line 436.
+Package pdftex.def Info: report_pic/Brightness_accuracy.png  used on input line 438.
 (pdftex.def)             Requested size: 387.00153pt x 290.26318pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 437.
+(caption)                particular \caption on input line 439.
 See the caption package documentation for explanation.
 
 
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 457--458
+Underfull \hbox (badness 10000) in paragraph at lines 459--460
 
  []
 
@@ -831,29 +831,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 457--458
 <report_pic/Rotation_accuracy.png, id=156, 462.528pt x 346.896pt>
 File: report_pic/Rotation_accuracy.png Graphic file (type png)
 <use report_pic/Rotation_accuracy.png>
-Package pdftex.def Info: report_pic/Rotation_accuracy.png  used on input line 459.
+Package pdftex.def Info: report_pic/Rotation_accuracy.png  used on input line 461.
 (pdftex.def)             Requested size: 387.00153pt x 290.26318pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 460.
+(caption)                particular \caption on input line 462.
 See the caption package documentation for explanation.
 
 
 
 [17 <./report_pic/Rotation_accuracy.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 485--486
+Underfull \hbox (badness 10000) in paragraph at lines 487--488
 
  []
 
 
-c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:497: LaTeX Error: There's no line here to end.
+c:/Users/yinha/Documents/CSC277/Homework1/report/HW1.tex:499: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.497 T
+l.499 T
        he differences in both mean and standard deviation suggest that there...
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -885,7 +885,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  84i,6n,93p,1183b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on HW1.pdf (18 pages, 1422034 bytes).
+Output written on HW1.pdf (18 pages, 1422918 bytes).
 PDF statistics:
  246 PDF objects out of 1000 (max. 8388607)
  184 compressed objects within 2 object streams

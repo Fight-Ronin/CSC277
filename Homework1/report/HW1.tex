@@ -68,7 +68,9 @@ Training neural networks involves exploring different model architectures, hyper
 In this problem, you'll train ResNet-18 models for image classification on the \href{https://www.kaggle.com/datasets/tanlikesmath/the-oxfordiiit-pet-dataset?select=images}{Oxford-IIIT Pet Dataset} while exploring various hyperparameters. You’ll use Weights and Biases (W\&B) to log your experiments and refine your approach based on the results.
 
 \subsection*{Part 1: Implementing Experiment Logging with W\&B (6 points)}
-
+\\
+\textit{NOTE: For the following graph, "Step" in x-axis == training epoch}
+\\
 \noindent \textbf{Prepare the Dataset.} Download the dataset and split it into training, validation, and test sets as defined in \texttt{oxford\_pet\_split.csv}. Complete the dataset definition in \texttt{train.py}. During preprocessing, resize the images to $224$ as required by ResNet-18, and apply \href{https://discuss.pytorch.org/t/understanding-transform-normalize/21730}{image normalization} using \href{https://stackoverflow.com/questions/73350133/how-to-calculate-mean-and-standard-deviation-of-a-set-of-images}{statistics from the training set} or from \href{https://stackoverflow.com/questions/58151507/why-pytorch-officially-use-mean-0-485-0-456-0-406-and-std-0-229-0-224-0-2}{ImageNet}.
 
 \noindent \textbf{Evaluating Model Performance.}
@@ -98,16 +100,20 @@ Execute the experiment using the \textbf{default} setup. Log in to the W\&B webs
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{report_pic/Experiment_Config.png}
-    \captionof{figure}{Linear Decision Boundary Graph}
+    \includegraphics[width=0.9\textwidth]{report_pic/Experiment_Config.png}
+    \captionof{figure}{Experiment Config}
 \end{center}
 
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{report_pic/Logged_Charts.png}
-    \captionof{figure}{Linear Decision Boundary Graph}
+    \includegraphics[width=0.9\textwidth]{report_pic/Logged_Charts.png}
+    \captionof{figure}{Logged chart}
 \end{center}
-
-The logged charts indicate that the training process has not yet fully converged. While the steadily decreasing training loss suggests the model is learning, the fluctuating validation loss points to poor generalization. Although validation accuracy improves from 0.05 to 0.3, the instability in validation loss hints at possible overfitting or the need for additional training. To enhance performance, increasing the number of epochs, tuning the learning rate, and incorporating a learning rate scheduler could help stabilize the process and improve generalization.
+\\
+\textit{NOTE: val\_loss - The total loss on validation set / val\_loss\_step - The step loss on validation set / train\_loss - The step loss on training set.}
+\\
+The logged charts indicate that the training process has not yet fully converged.
+While the steadily decreasing training loss suggests the model is learning, the fluctuating validation loss points to poor generalization of the model;
+eventhough the validation accuracy improves from 0.05 to 0.3. To enhance performance, increasing the number of epochs, tuning the learning rate, and incorporating a learning rate scheduler could help stabilize the process and improve generalization.
 
 \subsection*{Part 2: Tuning Hyperparameters}
 In this section, you'll experiment with key hyperparameters like learning rate and scheduler. For each step, change only one configuration at a time. Try not modify other hyperparameters (except batch size, which can be adjusted based on your computing resources).
@@ -124,7 +130,7 @@ In this section, you'll experiment with key hyperparameters like learning rate a
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{report_pic/SweepChart1.png}
+    \includegraphics[width=0.9\textwidth]{report_pic/SweepChart1.png}
     \captionof{figure}{Learning Rate Sweep Charts}
 \end{center}
 
@@ -170,7 +176,7 @@ Learning rate schedulers dynamically adjust the learning rate during training, i
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{report_pic/SchedulerChart.png}
+    \includegraphics[width=0.9\textwidth]{report_pic/SchedulerChart.png}
     \captionof{figure}{Scheduler Chart}
 \end{center}
 
@@ -190,7 +196,7 @@ As observed in previous parts, the choice of learning rate is crucial for effect
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{report_pic/LearningRateBatch.png}
+    \includegraphics[width=0.9\textwidth]{report_pic/LearningRateBatch.png}
     \captionof{figure}{Scheduler Chart}
 \end{center}
 
@@ -211,7 +217,7 @@ Fine-tuning leverages the knowledge of models trained on large datasets by adapt
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{report_pic/PretrainedModel.png}
+    \includegraphics[width=0.9\textwidth]{report_pic/PretrainedModel.png}
     \captionof{figure}{Pretrained-Chart}
 \end{center}
 
@@ -219,6 +225,7 @@ Fine-tuning leverages the knowledge of models trained on large datasets by adapt
 \\
 The pre-trained model shows a clear advantage over the baseline across multiple metrics. In pre-trained model, the validation accuracy reaches 0.6 early and stabilizes, while baseline model struggles around 0.3 with noticeable fluctuations. The train loss in P1 decreases sharply, reaching near-zero faster, whereas baseline model’s loss decreases more slowly. Moreover, the validation loss in  pre-trained model is significantly lower and more stable than baseline model, indicating better generalization. The final test accuracy for pre-trained model exceeds that of baseline model significantly, showing how pre-training enhances model performance and learning efficiency by improving parameter initialization, accelerating convergence, and improving generalization.
 
+\newpage
 
 \section*{Problem 2 - Model Testing}
 Unlike model evaluation, which focuses on performance metrics, model testing ensures that a model behaves as expected under specific conditions:
@@ -243,7 +250,7 @@ The results show that there were no overlapping images found, which indicates th
 \\
 \textit{Suggested approaches for addressing the detected issues: }
 \\
-Since no data leakage was detected, there are no specific issues to address in this context but I have implemented a $remove_duplicates()$ in dataset.py function that might help resovle image overlapping.
+Since no data leakage was detected, there are no specific issues to address in this context but I have implemented a $remove\_duplicates()$ in dataset.py function that might help resovle image overlapping.
 \\
 \textit{Code implementation: }
 \begin{verbatim}
@@ -344,7 +351,7 @@ Implement the learning rate range test using \href{https://github.com/davidtvs/p
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{lreport_pic/earningRate.png}
+    \includegraphics[width=0.9\textwidth]{report_pic/learningRate.png}
     \captionof{figure}{Learning Rate Check}
 \end{center}
 
@@ -370,6 +377,8 @@ Consider how BatchNorm operation would influence the presence of dying ReLU.
 
 \textbf{Answer:} \\
 Dying ReLU might occur in the deeper convolutional layers (e.g., $layer3$ and $layer4$) where the inputs might have already passed through several ReLU functions. This cumulative effect can cause more neurons to output zero, especially when weights initialized poorly or gradients vanish during backpropagation. Moreover, this issue might also occur in the initial ReLU layers ($bn1$ after $conv1$) if the preceding batch-norm (BatchNorm2d) layer scales inputs to negative values, making the ReLU output zero.
+\\
+\textit{Output Result: "No hooks were triggered or no ReLU layers were found".}
 \\
 To detect Dying ReLU, we can monitor outputs of all ReLU activation function during the forward pass with batch data. in detail:
 \begin{itemize}
@@ -426,7 +435,7 @@ Load the trained model using \texttt{get\_trained\_model()} function, and the te
 
 \textbf{Answer:} 
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{report_pic/Brightness_accuracy.png}
+    \includegraphics[width=0.9\textwidth]{report_pic/Brightness_accuracy.png}
     \captionof{figure}{Brightness v.s. Accuracy Chart}
 \end{center}
 Along with the brightness factor increases from 0.2 to 1.0, the model's accuracy steadily improves
@@ -449,7 +458,7 @@ Similarly, load the trained model using \texttt{get\_trained\_model()} function,
 
 \textbf{Answer:} \\
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{report_pic/Rotation_accuracy.png}
+    \includegraphics[width=0.9\textwidth]{report_pic/Rotation_accuracy.png}
     \captionof{figure}{Rotation v.s. Accuracy Chart}
 \end{center}
 The graph shows that model accuracy decreases as rotation angle of input images increases from 0 to 300 degrees.

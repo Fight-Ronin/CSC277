@@ -79,5 +79,5 @@ class ResNet(nn.Module):
 
 def get_trained_model():
     model = ResNet(Bottleneck, [3, 4, 6, 3])
-    model.load_state_dict(torch.load('problem_2/ckpt/trained_model.pt', map_location='cpu'))
+    model.load_state_dict(torch.load('ckpt/trained_model.pt', map_location='cpu'))
     return model
