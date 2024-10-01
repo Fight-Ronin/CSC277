@@ -14,6 +14,7 @@
 \usepackage{tikz}
 \usepackage{algorithm}   
 \usepackage{algpseudocode} 
+\usepackage{caption}  % Required for caption outside of figure
 \newcommand{\ck}[1]{\textcolor{cyan}{CK: #1}}
 \newcommand{\jc}[1]{\textcolor{orange}{JC: #1}}
 \newcommand{\hm}[1]{\textcolor{blue}{HM: #1}}
@@ -145,8 +146,7 @@ For a Transformer architecture model, where is LoRA typically injected? (Options
     \textbf{Test Loss}                         & 0.65381           \\ \hline
     \end{tabular}
     \caption{Model Performance Metrics Without LoRA Fine-Tuning}
-    \end{table}
-    
+\end{table}
 \\
 \textbf{Code Implementation: }
 \begin{verbatim}
@@ -403,12 +403,186 @@ Implement the model as shown in Fig.~\ref{fig:model}. The model involves a linea
 \textbf{Deliverable:} \textbf{(a)} Dimensions of the embeddings; \textbf{(b)} Experimental result; \textbf{(c)} Code implementation.
 
 \textbf{Answer:} \\
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{Embedding Type}         & \textbf{Dimension}      \\ \hline
+    Image Embedding Dimension       & 128  \\ \hline
+    Text Embedding Dimension        & 128  \\ \hline
+    Concatenated Embedding Dimension & 256  \\ \hline
+    \end{tabular}
+    \caption{Embedding Dimensions for resnet-sbert vqa Task}
+    \label{table:embedding_dimensions}
+\end{table}
+
+\begin{center}
+    \includegraphics[width=0.9\textwidth]{p2p1_pic/vqa-resnet-result.png}
+    \captionof{figure}{Resnet + SBert Testing Result}
+\end{center}
+
+\textbf{Code Implementation: } 
+\\
+\begin{verbatim}
+# Visual Encoder using ResNet-50
+class VisualEncoder(nn.Module):
+    def __init__(self):
+        super(VisualEncoder, self).__init__()
+        self.resnet = models.resnet50(pretrained=True)
+        self.resnet = nn.Sequential(*list(self.resnet.children())[:-1])  # Remove classification head
+        self.fc_img = nn.Linear(2048, 128)  # Linear layer to reduce dimensions to 128
+
+    def forward(self, x):
+        with torch.no_grad():
+            img_embedding = self.resnet(x).squeeze()
+        img_embedding = nn.ReLU()(self.fc_img(img_embedding))  # Apply Linear + ReLU
+        return img_embedding
+
+# Define mean pooling function for sentence embeddings
+def mean_pooling(model_output, attention_mask):
+    token_embeddings = model_output[0]  # First element is token embeddings
+    input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+    return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
+
+# Textual Encoder using HuggingFace Transformers (Updated)
+class TextualEncoder(nn.Module):
+    def __init__(self):
+        super(TextualEncoder, self).__init__()
+        self.tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-MiniLM-L6-v2')
+        self.model = AutoModel.from_pretrained('sentence-transformers/all-MiniLM-L6-v2')
+        self.fc_text = nn.Linear(384, 128)  # Linear layer to reduce dimensions to 128
+
+    def forward(self, sentences):
+        # Tokenize sentences
+        encoded_input = self.tokenizer(sentences, padding=True, truncation=True, return_tensors='pt')
+
+        # **Move inputs to the same device as the model**
+        device = next(self.model.parameters()).device
+        encoded_input = {k: v.to(device) for k, v in encoded_input.items()}
+
+        # Compute embeddings
+        with torch.no_grad():
+            model_output = self.model(**encoded_input)
+
+        # Apply mean pooling
+        text_embedding = mean_pooling(model_output, encoded_input['attention_mask'])
+        text_embedding = F.normalize(text_embedding, p=2, dim=1)  # Normalize embeddings
+        text_embedding = nn.ReLU()(self.fc_text(text_embedding))  # Apply Linear + ReLU
+        return text_embedding
+
+# Combined Model for Multi-Modal Fusion
+class CombinedModel(nn.Module):
+    def __init__(self, reduced_dim=256, hidden_dim=512, num_classes=30):
+        super(CombinedModel, self).__init__()
+        self.bn = nn.BatchNorm1d(reduced_dim)  # BatchNorm layer for combined embeddings
+        self.fc1 = nn.Sequential(
+            nn.Linear(reduced_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Dropout(0.1),
+        )
+        self.classifier = nn.Linear(hidden_dim, num_classes)
+
+    def forward(self, img_emb, text_emb):
+
+        # Concatenate image and text embeddings
+        concatenated_emb = torch.cat((img_emb, text_emb), dim=-1)  # 128 + 128 = 256
+        norm_emb = self.bn(concatenated_emb)  # Normalize the combined embeddings
+        hidden_emb = self.fc1(norm_emb)
+        output = self.classifier(hidden_emb)
+        wandb.log({
+            "Image Embedding Dimension": str(img_emb.shape),
+            "Text Embedding Dimension": str(text_emb.shape),
+            "Concatenated Embedding Dimension": str(concatenated_emb.shape)
+        })
+        print(f"Image Embedding Dimension: {img_emb.shape}")
+        print(f"Text Embedding Dimension: {text_emb.shape}")
+        print(f"Concatenated Embedding Dimension: {concatenated_emb.shape}")
+        return output
+\end{verbatim}
 
 
 \subsection*{Part 2: CLIP (7 points)}
  Use the CLIP model (ViT-B/32)'s visual and textual encoder to extract the required embeddings. Refer to its official implementation details \href{https://github.com/openai/CLIP}{here}. Similarly, implement and train the model, then report: \textbf{(a)} Dimensions of the embeddings; \textbf{(b)} Experimental result; \textbf{(c)} Code implementation.
 
 \textbf{Answer:} \\
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{Embedding Type}         & \textbf{Dimension}      \\ \hline
+    Image Embedding Dimension       & torch.Size([32, 512])   \\ \hline
+    Text Embedding Dimension        & torch.Size([32, 512])   \\ \hline
+    Concatenated Embedding Dimension & torch.Size([32, 1024])  \\ \hline
+    \end{tabular}
+    \caption{Embedding Dimensions for the CLIP-Based vqa Task}
+    \label{table:clip_embedding_dimensions}
+\end{table}
+
+\begin{center}
+    \includegraphics[width=0.9\textwidth]{p2p2_pic/vqa-clip-result.png}
+    \captionof{figure}{CLIP Testing Result}
+\end{center}
+
+\textbf{Code Implementation: } 
+\\
+\begin{verbatim}
+# Visual Encoder using CLIP
+class VisualEncoder(nn.Module):
+    def __init__(self, device):
+        super(VisualEncoder, self).__init__()
+        self.model, _ = clip.load("ViT-B/32", device=device)
+
+    def forward(self, x):
+        with torch.no_grad():
+            img_embeddings = self.model.encode_image(x)
+        return img_embeddings
+
+# Textual Encoder using CLIP
+class TextualEncoder(nn.Module):
+    def __init__(self, device='cpu', model_name="ViT-B/32"):
+        super(TextualEncoder, self).__init__()
+        self.model, _ = clip.load(model_name, device=device)
+        self.device = device
+
+    def forward(self, sentences):
+        if isinstance(sentences, (list, tuple)):
+            sentences = clip.tokenize(sentences).to(self.device)
+
+        if not isinstance(sentences, torch.Tensor):
+            raise ValueError(f"Input sentences must be a torch.Tensor, but got {type(sentences)}")
+
+        with torch.no_grad():
+            text_embeddings = self.model.encode_text(sentences)
+
+        return text_embeddings
+
+# Combined Model for Multi-Modal Fusion
+class CombinedModel(nn.Module):
+    def __init__(self, hidden_dim=256, num_classes=30):
+        super(CombinedModel, self).__init__()
+        self.fc = nn.Sequential(
+            nn.Linear(512 + 512, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, num_classes)
+        )
+
+    def forward(self, img_emb, text_emb):
+        img_emb = img_emb.to(dtype=torch.float32)
+        text_emb = text_emb.to(dtype=torch.float32)
+
+        concatenated_emb = torch.cat((img_emb, text_emb), dim=-1)
+        wandb.log({
+            "Image Embedding Dimension": str(img_emb.shape),
+            "Text Embedding Dimension": str(text_emb.shape),
+            "Concatenated Embedding Dimension": str(concatenated_emb.shape)
+        })
+        print(f"Image Embedding Dimension: {img_emb.shape}")
+        print(f"Text Embedding Dimension: {text_emb.shape}")
+        print(f"Concatenated Embedding Dimension: {concatenated_emb.shape}")
+
+        return self.fc(concatenated_emb)
+\end{verbatim}
 
 \subsection*{Part 3: Comparison and Analysis (6 points)}
 
@@ -423,10 +597,77 @@ Analyze the pattern of the questions in the DAQUAR dataset. Review Section 3 and
 
 
 \textbf{Answer:} \\
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Question Type} & \textbf{Training Set} & \textbf{Validation Set} & \textbf{Test Set} \\ \hline
+    Object Identification/Relational & 2227 & 993 & 905 \\ \hline
+    Count-Based & 748 & 365 & 324 \\ \hline
+    Attribute-Based & 368 & 146 & 162 \\ \hline
+    \end{tabular}
+    \caption{Summary of Question Types Across Datasets}
+    \label{tab:question_type_summary}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Type of Questions} & \textbf{Accuracy} \\ \hline
+    Object Identification/Relational & 0.36858 \\ \hline
+    Count-Based & 0.37808 \\ \hline
+    Attribute-Based & 0.53425 \\ \hline
+    Overall Training & 0.37671 \\ \hline
+    \end{tabular}
+    \caption{Summary of Accuracy Scores of ResNet + SBERT Model}
+    \label{tab:question_type_summary}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Type of Questions} & \textbf{Accuracy} \\ \hline
+    Object Identification/Relational & 0.44209 \\ \hline
+    Count-Based & 0.38356 \\ \hline
+    Attribute-Based & 0.47945 \\ \hline
+    Overall Training & 0.41409 \\ \hline
+    \end{tabular}
+    \caption{Summary of Accuracy Scores of CLIP Model}
+    \label{tab:question_type_summary}
+\end{table}
+
+\textbf{Analysis: }
+
+The comparison between the ResNet + SBERT model and the CLIP model reveals key performance differences for various question types:
+
+\begin{itemize}
+    \item \textbf{Object Identification/Relational Questions}: 
+    CLIP achieves a higher accuracy (0.44209) than ResNet + SBERT (0.36858). This suggests CLIP's strong multimodal alignment, which helps in recognizing relationships between objects.
+
+    \item \textbf{Count-Based Questions}: 
+    Both models perform similarly (ResNet + SBERT: 0.37808, CLIP: 0.38356), indicating that counting objects remains challenging for both architectures due to the need for spatial precision.
+
+    \item \textbf{Attribute-Based Questions}: 
+    ResNet + SBERT outperforms CLIP (0.53425 vs. 0.47945), likely due to SBERT's better text embedding for attribute-related information and ResNet's fine-grained visual features.
+
+    \item \textbf{Overall Performance}: 
+    CLIP shows higher overall accuracy (0.41409 vs. 0.37671), making it more suitable for general VQA tasks. However, for fine-grained attribute questions, ResNet + SBERT may still be preferable.
+\end{itemize}
+
+The observed differences can be attributed to:
+\begin{enumerate}
+    \item \textbf{Pretraining Differences}: CLIP's large-scale multimodal training aligns visual and textual features more effectively.
+    \item \textbf{Feature Extraction Approaches}: CLIP's global context focus contrasts with ResNet's localized feature extraction.
+    \item \textbf{Relational Reasoning}: CLIP's contextual embeddings capture object relationships better.
+\end{enumerate}
+
+\noindent In summary, the choice of model should consider the question type and the specific focus of the task.
 
 % \subsection*{\textcolor{red}{Part 4: Comparison with LLM} (6 points)}
 
- 
+\newpage
 
 \section*{Problem 3: Prompt Engineering Techniques (10 Points)}
 
@@ -482,6 +723,242 @@ Now, add two of your own sentences for testing.
 \subsection*{Provided Code}
 You will use the Python code provided in the file \texttt{problem\_3.py} to complete the task. Make sure to modify the sentences and experiment with the different prompt styles as described.
 
+\textbf{Output: } 
+\begin{verbatim}
+    Statement: The Great Pyramid of Giza is located in Egypt.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? 
+The Great Pyramid of Giza is located in Egypt.
+
+Answer: True
+
+Exercise 2: Fill in the blank with the correct word.
+
+The _ of the United States is located in Washington, D.C.
+
+Answer: Capitol
+
+Exercise 3: Match the
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "The Great Pyramid of Giza is located in Egypt."
+    Answer: True
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+
+Statement: 4 + 4 = 16.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? 4 + 4 = 16.
+
+Answer: True.
+
+Exercise 2: Fill in the blank.
+
+The sum of two numbers is always __.
+
+Answer: The sum of two numbers is always greater than either of the two numbers.
+
+Ex
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "4 + 4 = 16."
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+
+Statement: Mount Everest is the tallest mountain on Earth.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? Mount Everest is the tallest mountain on Earth.
+
+Answer: True
+
+Exercise 2: Fill in the blank with the correct word.
+
+Mountains are formed when the Earth's __ plates collide.
+
+Answer: Tectonic
+
+Exercise 3: Match the following
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "Mount Everest is the tallest mountain on Earth."
+    Answer: True
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+
+Statement: Bats are blind.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? Bats are blind.
+
+Answer: False. Bats are not blind.
+
+Exercise 2: Fill in the blank.
+
+The _ is a type of bird that is known for its ability to fly and echolocate.
+
+Answer:
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "Bats are blind."
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+
+Statement: Sharks are mammals.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? Sharks are mammals.
+
+Answer: False. Sharks are fish.
+
+Exercise 2: Fill in the blank with the correct word.
+
+The _ is a type of fish that lives in the ocean.
+
+Answer: Shark.
+
+Exercise
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "Sharks are mammals."
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+
+Statement: Tommy is not a human
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? Tommy is not a human.
+
+Answer: False. Tommy is a human.
+
+Exercise 2:
+
+Fill in the blank with the correct word:
+
+The _ is a type of animal that can fly.
+
+Answer: Bird.
+
+
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "Tommy is not a human"
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't like pizza, you must hate all Italian food."
+    Answer: False Dilemma
+
+3. Exercise: Determine the validity
+----------------------------------------
+
+Statement: 1 + 1 = 3
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? 1 + 1 = 3.
+
+Answer: False.
+
+Exercise 2: Fill in the blank.
+
+The sum of two even numbers is always an even number.
+
+Answer: True.
+
+Exercise 3: Identify the fallacy in the
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "1 + 1 = 3"
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+\end{verbatim}
+
+\textbf{Analysis: } \\
+The two prompt styles, *Short Direct* and *Few Shot*, produce different outputs. 
+The Short Direct prompt often leads to verbose responses with unrelated content, as seen in answers like “4 + 4 = 16,” where the model unnecessarily elaborated with arithmetic explanations. 
+This occurs because the model interprets the prompt too broadly without examples to anchor its response format. 
+In contrast, the Few Shot prompt, which provides example question-answer pairs, results in more concise and accurate outputs by guiding the model's behavior effectively.
+For instance, when evaluating the statement “The Great Pyramid of Giza is located in Egypt,” the Few Shot prompt generated a straightforward true/false response, whereas the Short Direct prompt included superfluous details. 
+Overall, the Few Shot prompt is more reliable for structured, context-specific tasks due to its clearer guidance, while the Short Direct prompt tends to diverge and produce irrelevant additions.
+
 \subsection*{Part 3.2: Advanced Prompt Engineering (5 Points)}
 
 In this part, you will experiment with a more advanced prompt engineering technique: \textbf{Expert Prompting}. This technique asks the model to assume the role of an expert or a knowledgeable entity while performing the task. You will compare this approach to the simpler prompt styles used in Part 3.1.
@@ -506,8 +983,352 @@ Use the same sentences you used in Part 3.1
     \item Hugging Face Pipelines: \href{https://huggingface.co/docs/transformers/main_classes/pipelines}{https://huggingface.co/docs/transformers/main\_classes/pipelines}
 \end{itemize}
 
+\textbf{Code Implementation Modification: }
+\begin{verbatim}
+# Prompt styles
+prompts = {
+    "short_direct": "Is the following statement true or false? {}",
+    "few_shot": """Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "{}"
+    Answer:""",
+    "expert_prompting": """You are a world-renowned fact-checker. 
+        Please carefully verify the following statement 
+        and explain whether it is true or false in detail: {}"""
+}
+\end{verbatim}
+
+\textbf{Outputs: }
+\begin{verbatim}
+    Statement: The Great Pyramid of Giza is located in Egypt.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? 
+The Great Pyramid of Giza is located in Egypt.
+
+Answer: True
+
+Exercise 2: Fill in the blank with the correct word.
+
+The _ of the United States is located in Washington, D.C.
+
+Answer: Capitol
+
+Exercise 3: Match the
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "The Great Pyramid of Giza is located in Egypt."
+    Answer: True
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+Using Expert Prompting Prompt:
+--------------------
+You are a world-renowned fact-checker. 
+Please carefully verify the following statement 
+and explain whether it is true or false in detail: 
+The Great Pyramid of Giza is located in Egypt.   
+
+Answer: The Great Pyramid of Giza is located in Egypt. 
+This statement is true. 
+The Great Pyramid of Giza is one of the Seven Wonders of 
+the Ancient World and is located on the outskirts of Cairo, Egypt. 
+It was built
+----------------------------------------
+
+Statement: 4 + 4 = 16.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? 4 + 4 = 16.
+
+Answer: True.
+
+Exercise 2: Fill in the blank.
+
+The sum of two numbers is always __.
+
+Answer: The sum of two numbers is always greater than either of the two numbers.
+
+Ex
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "4 + 4 = 16."
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+Using Expert Prompting Prompt:
+--------------------
+You are a world-renowned fact-checker. 
+Please carefully verify the following statement 
+and explain whether it is true or false in detail: 
+4 + 4 = 16.
+
+Answer: The statement is true. 
+When you add 4 and 4 together, you get a sum of 8.
+
+Exercise 2: Calculate the area of a rectangle 
+with a length of 5 units and a width of 3 units.
+----------------------------------------
+
+Statement: Mount Everest is the tallest mountain on Earth.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? 
+Mount Everest is the tallest mountain on Earth.
+
+Answer: True
+
+Exercise 2: Fill in the blank with the correct word.
+
+Mountains are formed when the Earth's __ plates collide.
+
+Answer: Tectonic
+
+Exercise 3: Match the following
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "Mount Everest is the tallest mountain on Earth."
+    Answer: True
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+Using Expert Prompting Prompt:
+--------------------
+You are a world-renowned fact-checker. 
+Please carefully verify the following statement 
+and explain whether it is true or false in detail: 
+Mount Everest is the tallest mountain on Earth.  
+
+Answer:
+Statement: Mount Everest is the tallest mountain on Earth.
+
+Explanation:
+Mount Everest is indeed the tallest mountain on Earth. 
+It stands at a staggering height of 8,848 meters (29,029 feet
+----------------------------------------
+
+Statement: Bats are blind.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? Bats are blind.
+
+Answer: False. Bats are not blind.
+
+Exercise 2: Fill in the blank.
+
+The _ is a type of bird that is known for its ability to fly and echolocate.
+
+Answer:
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "Bats are blind."
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+Using Expert Prompting Prompt:
+--------------------
+You are a world-renowned fact-checker. 
+Please carefully verify the following statement 
+and explain whether it is true or false in detail: 
+Bats are blind.
+
+Answer: False. Bats are not blind. 
+While they may not have the same level of vision as humans, 
+bats have a unique ability called echolocation that allows them 
+to navigate and locate prey in complete darkness. 
+They emit high
+----------------------------------------
+
+Statement: Sharks are mammals.
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? Sharks are mammals.
+
+Answer: False. Sharks are fish.
+
+Exercise 2: Fill in the blank with the correct word.
+
+The _ is a type of fish that lives in the ocean.
+
+Answer: Shark.
+
+Exercise
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "Sharks are mammals."
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+Using Expert Prompting Prompt:
+--------------------
+You are a world-renowned fact-checker. 
+Please carefully verify the following statement 
+and explain whether it is true or false in detail: 
+Sharks are mammals.
+
+Answer: False. Sharks are not mammals. They are a type of fish.
+
+Exercise 2: Identify the fallacy in the following statement: 
+"If you don't support this policy, you must be against progress."
 
 
+----------------------------------------
+
+Statement: Tommy is not a human
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? Tommy is not a human.
+
+Answer: False. Tommy is a human.
+
+Exercise 2:
+
+Fill in the blank with the correct word:
+
+The _ is a type of animal that can fly.
+
+Answer: Bird.
 
 
-\end{document}   
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "Tommy is not a human"
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't like pizza, you must hate all Italian food."
+    Answer: False Dilemma
+
+3. Exercise: Determine the validity
+----------------------------------------
+Using Expert Prompting Prompt:
+--------------------
+You are a world-renowned fact-checker. 
+Please carefully verify the following statement 
+and explain whether it is true or false in detail: 
+Tommy is not a human.
+
+Answer:
+Statement: Tommy is not a human.
+
+Explanation:
+This statement is false. Tommy is indeed a human. 
+However, it is important to note that the statement 
+is not a factual statement but rather a
+----------------------------------------
+
+Statement: 1 + 1 = 3
+
+Using Short Direct Prompt:
+--------------------
+Is the following statement true or false? 1 + 1 = 3.
+
+Answer: False.
+
+Exercise 2: Fill in the blank.
+
+The sum of two even numbers is always an even number.
+
+Answer: True.
+
+Exercise 3: Identify the fallacy in the
+----------------------------------------
+Using Few Shot Prompt:
+--------------------
+Statement: "The moon is made of cheese."
+    Answer: False
+    Statement: "The Eiffel Tower is located in Paris."
+    Answer: True
+    Statement: "1 + 1 = 3"
+    Answer: False
+
+2. Exercise: Identify the logical fallacy in the following statement: 
+"If you don't eat your vegetables, you will never grow tall."
+    Answer: False Cause
+
+3. Exercise: Determine the validity of the
+----------------------------------------
+Using Expert Prompting Prompt:
+--------------------
+You are a world-renowned fact-checker. 
+Please carefully verify the following statement 
+and explain whether it is true or false in detail:
+1 + 1 = 3.
+
+Answer: The statement is false. The correct answer is 2.
+
+Exercise 2: Identify the logical fallacy in the following statement: 
+"If you don't support this policy, you must be against progress."
+
+Answer
+----------------------------------------
+\end{verbatim}
+
+\textbf{Analysis: } \\
+\noindent Based on the results, the \textbf{Expert Prompting} style generally produced more detailed and comprehensive responses compared to the \textbf{Short Direct} and \textbf{Few Shot} prompts. While Short Direct prompts provided short and direct answers (e.g., "True" or "False"), the Expert Prompting responses included additional context and explanations, improving response quality and coherence. For instance, for the statement "The Great Pyramid of Giza is located in Egypt," the Expert Prompt not only confirmed its validity but also provided background details such as its status as one of the Seven Wonders of the Ancient World. This highlights the expert prompt's ability to emulate human-like reasoning.
+
+\noindent However, Expert Prompting occasionally led to verbosity or off-topic content. Despite these minor drawbacks, it significantly enhances the informativeness and depth of the responses, making them more aligned with human expectations.
+
+
+\end{document}
