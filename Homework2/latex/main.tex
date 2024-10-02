@@ -20,7 +20,7 @@
 \newcommand{\hm}[1]{\textcolor{blue}{HM: #1}}
 
 \title{Homework 2 \\ CSC 277 / 477 \\ End-to-end Deep Learning \\ Fall 2024}
-\author{Henry Yin - \texttt{hyi1n2@u.rochester.edu}}
+\author{Henry Yin - \texttt{hyin12@u.rochester.edu}}
 \date{}					
 
 
@@ -550,7 +550,8 @@ class TextualEncoder(nn.Module):
             sentences = clip.tokenize(sentences).to(self.device)
 
         if not isinstance(sentences, torch.Tensor):
-            raise ValueError(f"Input sentences must be a torch.Tensor, but got {type(sentences)}")
+            raise ValueError(f"Input sentences must be a torch.Tensor, 
+                but got {type(sentences)}")
 
         with torch.no_grad():
             text_embeddings = self.model.encode_text(sentences)
