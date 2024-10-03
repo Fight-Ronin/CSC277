@@ -246,11 +246,12 @@ Load the training, validation, and test data sets using \texttt{get\_dataset()} 
 \\
 \textit{Observations and analysis of the results: }
 \\
-The results show that there were no overlapping images found, which indicates that there is no direct data leakage from the perspective of identical images across these datasets.
+The results show that there were no overlapping images found between pairs of \textbf{test \& validation}, \textbf{train \& validation} datasets, which indicates that there is no direct data leakage from the perspective of identical images across these datasets.
+BUT, for \textbf{train \& test} dataset, there exists a severe data leaking since we have detected many overlapping imagehashes.
 \\
 \textit{Suggested approaches for addressing the detected issues: }
 \\
-Since no data leakage was detected, there are no specific issues to address in this context but I have implemented a $remove\_duplicates()$ in dataset.py function that might help resovle image overlapping.
+For the leakage detected, I have implemented a $remove\_duplicates()$ in dataset.py file that might help resovle image overlapping to address the data leaking problem.
 \\
 \textit{Code implementation: }
 \begin{verbatim}
@@ -320,7 +321,7 @@ Initialize the model using the \texttt{get\_model()} function. Verify that the m
 
 \textbf{Answer:} 
 \begin{verbatim}
-    AssertionError: Output shape mismatch: Expected (4, 10), got torch.Size([4, 128])
+    AssertionError: Output shape mismatch: Expected (32, 10), got torch.Size([32, 128])
 \end{verbatim}
 \textit{Observations and analysis of the results: }
 \\
@@ -335,16 +336,25 @@ Verify that ALL the model's trainable parameters are updated after a single grad
 
 \textbf{Answer:}
 \begin{verbatim}
-    Parameter 'conv1.weight' was successfully updated.
-    Parameter 'bn1.weight' was successfully updated.
-    ......
-    Parameter 'layer4.2.bn3.bias' was successfully updated.
-    Parameter 'fc1.weight' was successfully updated.
-    Parameter 'fc1.bias' was successfully updated.
+    Parameter 'layer1.0.downsample.0.weight' was NOT updated.
+    Parameter 'layer1.0.downsample.1.weight' was NOT updated.
+    Parameter 'layer1.0.downsample.1.bias' was NOT updated.
+    Parameter 'layer2.0.downsample.0.weight' was NOT updated.
+    Parameter 'layer2.0.downsample.1.weight' was NOT updated.
+    Parameter 'layer2.0.downsample.1.bias' was NOT updated.
+    Parameter 'layer3.0.downsample.0.weight' was NOT updated.
+    Parameter 'layer3.0.downsample.1.weight' was NOT updated.
+    Parameter 'layer3.0.downsample.1.bias' was NOT updated.
+    Parameter 'layer4.0.downsample.0.weight' was NOT updated.
+    Parameter 'layer4.0.downsample.1.weight' was NOT updated.
+    Parameter 'layer4.0.downsample.1.bias' was NOT updated.
+    Summary: 12 / 163 parameters are not updated.
 \end{verbatim}
 \textit{Observations and analysis of the results: }
 \\
-According to the code's output, by comparing the parameters after a single training step, all the learnable parameters have been updated successfully.
+According to the code's output, by comparing the parameters after a single training step, not all trainable parameters are updated. Overall, 12/163 \textit{params} are not updated in the network.
+
+\newpage
 
 \subsubsection*{Learning Rate Check (2 points)}
 Implement the learning rate range test using \href{https://github.com/davidtvs/pytorch-lr-finder#tweaked-version-from-fastaiauto}{pytorch-lr-finder}. Determine whether the learning rate is appropriately set by examining the loss-learning rate graph. Necessary components for \texttt{torch\_lr\_finder.LRFinder} are provided in \texttt{model\_testing.py}.
@@ -357,8 +367,12 @@ Implement the learning rate range test using \href{https://github.com/davidtvs/p
 
 \textit{Observations and analysis of the results: }
 \\
-From the learning rate range test using pytorch-lr-finder, we observe a clear pattern where the loss decreases initially as the learning rate increases. This indicates that the model is learning effectively within this range. However, after reaching a certain point (around $10^{-4}$), the loss stabilizes and eventually begins to increase, suggesting that the learning rate has surpassed the optimal point, leading to divergence. The steepest descent point identified at approximately 4.23E-05 suggests that this is the most effective learning rate for training.
+From the learning rate range test, we observe that the loss decreases steadily as the learning rate increases from $10^{-5}$ to approximately $10^{-2}$. 
+This indicates that the model is learning effectively within this range. However, beyond this point, the loss begins to stabilize and eventually increases after the learning rate surpasses $10^{-1}$. 
+This suggests that the learning rate has gone beyond the optimal range, causing the model to diverge. 
 \\
+The steepest descent point, highlighted in red, is found at approximately $10^{-2}$, suggesting that 2.42E-02 is an ideal learning rate for the initial training phase. (Suggested LR: 2.42E-02)
+
 \textbf{All the Code implementations for above questions are avaliable in \textit{model\_testing.py} file with clear comments.}
 
 \subsection*{Part 2: Post-Train Testing}
@@ -378,8 +392,21 @@ Consider how BatchNorm operation would influence the presence of dying ReLU.
 \textbf{Answer:} \\
 Dying ReLU might occur in the deeper convolutional layers (e.g., $layer3$ and $layer4$) where the inputs might have already passed through several ReLU functions. This cumulative effect can cause more neurons to output zero, especially when weights initialized poorly or gradients vanish during backpropagation. Moreover, this issue might also occur in the initial ReLU layers ($bn1$ after $conv1$) if the preceding batch-norm (BatchNorm2d) layer scales inputs to negative values, making the ReLU output zero.
 \\
-\textit{Output Result: "No hooks were triggered or no ReLU layers were found".}
+In this experiment, I consider the ReLU layer with 50\%+ Zero Activation as dying ReLU layers. Here is the output of the code:
 \\
+\textbf{Output Result: }
+\begin{verbatim}
+Layers with lower 30% dead neurons: 7
+Layers with 30-50% dead neurons: 24
+Layers with above 50% dead neurons: 19
+
+Dying ReLU layers:
+ReLU_3: Zero Activation Percentage: 50.075%
+ReLU_5: Zero Activation Percentage: 51.336%
+ReLU_7: Zero Activation Percentage: 51.290%
+...
+\end{verbatim}
+
 To detect Dying ReLU, we can monitor outputs of all ReLU activation function during the forward pass with batch data. in detail:
 \begin{itemize}
     \item Register forward ``hooks'' on each ReLU layer in the network to capture output.
@@ -388,37 +415,79 @@ To detect Dying ReLU, we can monitor outputs of all ReLU activation function dur
 \\
 \textbf{Code Implementation: }
 \begin{verbatim}
-def relu_hook(module, input, output):
-    print(f"Hook triggered for module: {module}")
-    output = output.detach().cpu()
-    total_neurons = output.numel()
-    dead_neurons = (output == 0).sum().item()
-    activations[module] = dead_neurons / total_neurons
+def detect_dying_relu(model, input_tensor):
+    """
+    Detects dying ReLU activations in a model that uses torch.nn.functional.relu.
+    We override the global F.relu function temporarily to capture its activations.
+    
+    Args:
+    - model: The PyTorch model to analyze.
+    - input_tensor: The input tensor to feed into the model for analysis.
+    
+    Returns:
+    - A list of percentages representing zero activations for each ReLU layer.
+    """
+    relu_activations = []  # To store zero activation percentages
 
-# Register hooks for all ReLU layers
-for name, layer in trained_model.named_modules():
-    if isinstance(layer, nn.ReLU):
-        print(f"Registering hook for layer: {name}")
-        layer.register_forward_hook(relu_hook)
+    def custom_relu(tensor, inplace=False):
+        """
+        Custom wrapper for F.relu to track the percentage of zero activations.
+        """
+        activation = torch.relu(tensor)
+        total_elements = activation.numel()
+        zero_elements = torch.sum(activation == 0).item()
+        zero_percentage = (zero_elements / total_elements) * 100
+        relu_activations.append(zero_percentage)
+        return activation
 
-# Pass a batch of data
-trained_model.eval()
-with torch.no_grad():
-    for inputs, labels in test_loader:
-        inputs = inputs.to(device)
-        if inputs.dim() == 3:  # If 3D, add batch dimension
-            inputs = inputs.unsqueeze(0)
+    original_relu = F.relu  
+    F.relu = custom_relu  
 
-        outputs = trained_model(inputs)
-        break
+    model.eval()
+    with torch.no_grad():
+        _ = model(input_tensor)
 
-# Display
-if activations:
-    for layer, percentage in activations.items():
-        print(f"Layer: {layer}, Dying ReLU Percentage: {percentage:.2%}")
-else:
-    print("No hooks were triggered or no ReLU layers were found.")
+    F.relu = original_relu  
+
+    return relu_activations
+
+
+def summarize_dying_relu(relu_activations):
+    """
+    Summarize the ReLU activations based on the percentage of dead neurons.
+    
+    Args:
+    - relu_activations: List of dead neuron percentages for each ReLU layer.
+    
+    Returns:
+    - Prints the summary of layers in the specified ranges.
+    """
+    
+    range_30 = [act for act in relu_activations if act < 30]
+    range_30_50 = [act for act in relu_activations if 30 <= act < 50]
+    range_above_50 = [act for act in relu_activations if act >= 50]
+
+    print("Summary of Dying ReLU Neuron Percentages:")
+    print(f"Layers with lower 30% dead neurons: {len(range_30)}")
+    print(f"Layers with 30-50% dead neurons: {len(range_30_50)}")
+    print(f"Layers with above 50% dead neurons: {len(range_above_50)}")
+
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = get_trained_model().to(device)
+
+test_dataset = get_testset()
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=32, shuffle=True)
+batch = next(iter(test_loader))
+input_tensor, _ = batch  # Discard labels
+input_tensor = input_tensor.to(device)
+
+relu_activations = detect_dying_relu(model, input_tensor)
+
+summarize_dying_relu(relu_activations)
 \end{verbatim}
+
+\newpage
 
 \subsubsection*{Model Robustness Test - Brightness (4 points)}
 In this section, you will evaluate the model's robustness to changes in image brightness using a defined brightness factor.
